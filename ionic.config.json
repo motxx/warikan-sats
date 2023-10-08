@@ -1,0 +1,7 @@
+{
+  "name": "warikan-sats",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
