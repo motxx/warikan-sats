@@ -1,11 +1,9 @@
 import { IonLabel } from "@ionic/react";
 
 export type Props = {
-    label: string;
+  label: string;
 };
 
-export const Label: React.FC<Props> = (props: Props) => {
-    return (
-        <IonLabel>{props.label}</IonLabel>
-    );
-}
+export const Label: React.FC<Props> = ({ label }) => {
+  return <IonLabel>{label}</IonLabel>;
+};
