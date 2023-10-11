@@ -10,10 +10,10 @@ import {
   setupIonicReact,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import { ellipse, square, triangle } from "ionicons/icons";
+import { peopleOutline, wallet, send } from "ionicons/icons";
 import { WalletOverviewPage } from "./pages/WalletOverviewPage";
 import { PaymentPage } from "./pages/PaymentPage";
-import Tab3 from "./pages/Tab3";
+import { Contact } from "./pages/Contact";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -47,8 +47,8 @@ const App: React.FC = () => (
           <Route exact path="/payment">
             <PaymentPage />
           </Route>
-          <Route path="/tab3">
-            <Tab3 />
+          <Route path="/contact">
+            <Contact />
           </Route>
           <Route exact path="/">
             <Redirect to="/wallet" />
@@ -56,16 +56,16 @@ const App: React.FC = () => (
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
           <IonTabButton tab="wallet" href="/wallet">
-            <IonIcon aria-hidden="true" icon={triangle} />
-            <IonLabel>Tab 1</IonLabel>
+            <IonIcon aria-hidden="true" icon={wallet} />
+            <IonLabel>Wallet</IonLabel>
           </IonTabButton>
           <IonTabButton tab="payment" href="/payment">
-            <IonIcon aria-hidden="true" icon={ellipse} />
-            <IonLabel>Tab 2</IonLabel>
+            <IonIcon aria-hidden="true" icon={send} />
+            <IonLabel>Invoice</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="tab3" href="/tab3">
-            <IonIcon aria-hidden="true" icon={square} />
-            <IonLabel>Tab 3</IonLabel>
+          <IonTabButton tab="contact" href="/contact">
+            <IonIcon aria-hidden="true" icon={peopleOutline} />
+            <IonLabel>Contact</IonLabel>
           </IonTabButton>
         </IonTabBar>
       </IonTabs>
