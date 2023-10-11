@@ -5,9 +5,5 @@ type Props = {
 };
 
 export const InvoiceInputForm: React.FC<Props> = ({ onChange }) => {
-  return (
-    <>
-      <div>input form</div>
-    </>
-  );
+  return <div>input form</div>;
 };

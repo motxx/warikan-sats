@@ -1,4 +1,5 @@
 import React from "react";
+import { InvoiceQRCode } from "./InvoiceQRCodeOutput/InvoiceQRCode";
 
 type Props = {
   invoiceData: string;
@@ -6,8 +7,8 @@ type Props = {
 
 export const InvoiceQRCodeOutput: React.FC<Props> = ({ invoiceData }) => {
   return (
-    <>
-      <div>QRCode output: {invoiceData}</div>
-    </>
+    <div>
+      <InvoiceQRCode data={invoiceData} />
+    </div>
   );
 };

@@ -7,7 +7,7 @@ type Props = {};
 
 export const InvoiceGenerator: React.FC<Props> = ({}) => {
   const [amount, setAmount] = React.useState(0);
-  const [invoiceData, setInvoiceData] = React.useState("");
+  const [invoiceData, setInvoiceData] = React.useState("Example");
   return (
     <>
       <InvoiceInputForm onChange={setAmount} />
