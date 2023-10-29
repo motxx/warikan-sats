@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { IonPage } from "@ionic/react";
 import { WalletOverviewTemplate } from "../components/templates/WalletOverviewTemplate";
 import { Invoice } from "../components/templates/WalletOverview/InvoicesList/ListItem";
+import { Menu } from "../components/templates/Common/Menu";
+import { Header } from "../components/templates/Common/Header";
 
 const lang = "ja";
 const mockBalance = 10000;
@@ -15,13 +17,17 @@ export const WalletOverviewPage: React.FC = () => {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
 
   return (
-    <IonPage>
-      <WalletOverviewTemplate
-        invoices={mockInvoices}
-        setInvoices={setInvoices}
-        balance={mockBalance}
-        lang={lang}
-      />
-    </IonPage>
+    <>
+      <Menu />
+      <IonPage id="main-content">
+        <Header />
+        <WalletOverviewTemplate
+          invoices={mockInvoices}
+          setInvoices={setInvoices}
+          balance={mockBalance}
+          lang={lang}
+        />
+      </IonPage>
+    </>
   );
 };

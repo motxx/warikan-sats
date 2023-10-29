@@ -1,7 +1,6 @@
 import React from "react";
 import { IonContent } from "@ionic/react";
 import { Invoice } from "./WalletOverview/InvoicesList/ListItem";
-import { Header } from "./Common/Header";
 import { WalletBalance } from "./WalletOverview/WalletBalance";
 import { WalletInvoicesList } from "./WalletOverview/InvoicesList";
 
@@ -20,7 +19,6 @@ export const WalletOverviewTemplate: React.FC<Props> = ({
 }) => {
   return (
     <>
-      <Header />
       <IonContent className="ion-text-center">
         <WalletBalance balance={balance} lang={lang} />
         <WalletInvoicesList

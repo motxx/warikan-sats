@@ -1,14 +1,13 @@
-import React from "react";
-import { IonHeader, IonToolbar, IonTitle } from "@ionic/react";
+import { IonButtons, IonHeader, IonMenuButton, IonToolbar } from "@ionic/react";
 
-export const Header: React.FC = () => {
+export const Header = () => {
   return (
-    <>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle className="ion-text-center">Account Details</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-    </>
+    <IonHeader>
+      <IonToolbar>
+        <IonButtons slot="end">
+          <IonMenuButton></IonMenuButton>
+        </IonButtons>
+      </IonToolbar>
+    </IonHeader>
   );
 };

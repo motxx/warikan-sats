@@ -13,7 +13,7 @@ import { IonReactRouter } from "@ionic/react-router";
 import { peopleOutline, wallet, send } from "ionicons/icons";
 import { WalletOverviewPage } from "./pages/WalletOverviewPage";
 import { PaymentPage } from "./pages/PaymentPage";
-import { Contact } from "./pages/Contact";
+import { ContactPage } from "./pages/ContactPage";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -48,7 +48,7 @@ const App: React.FC = () => (
             <PaymentPage />
           </Route>
           <Route path="/contact">
-            <Contact />
+            <ContactPage />
           </Route>
           <Route exact path="/">
             <Redirect to="/wallet" />
