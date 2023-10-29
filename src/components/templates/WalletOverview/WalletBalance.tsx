@@ -1,6 +1,7 @@
 import React from "react";
 import { IonCard, IonCardContent } from "@ionic/react";
 import { Amount } from "../../atoms/Amount";
+import { fromSats } from "../../../services/currency";
 
 type Props = {
   balance: number; // sats
@@ -12,10 +13,10 @@ export const WalletBalance: React.FC<Props> = ({ balance, lang }) => {
     <>
       <IonCard>
         <IonCardContent>
-          <div>
+          <div className="text-3xl text-white font-extrabold">
             <Amount
               currencyUnit={lang === "ja" ? "jpy" : "usd"}
-              amount={balance / 123} // TODO: use real exchange rate
+              amount={fromSats(balance, lang === "ja" ? "jpy" : "usd")}
             />
           </div>
           <div>
