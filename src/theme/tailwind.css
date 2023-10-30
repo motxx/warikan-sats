@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Remove drop shadow of Core ionic CSS */
+* {
+  box-shadow: none !important;
+}
