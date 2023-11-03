@@ -11,6 +11,9 @@ const mockInvoices: Invoice[] = [
   { type: "received", note: "飲み会🍻", amount: 4000 },
   { type: "sent", note: "Thank you for your streaming!!", amount: 3700 },
   { type: "sent", note: "忘年会", amount: 1000 },
+  { type: "sent", note: "テスト", amount: 1000 },
+  { type: "sent", note: "テスト", amount: 1000 },
+  { type: "sent", note: "テスト", amount: 1000 },
 ];
 
 export const WalletOverviewPage: React.FC = () => {

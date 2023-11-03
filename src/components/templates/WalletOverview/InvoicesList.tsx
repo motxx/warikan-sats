@@ -10,15 +10,15 @@ type Props = {
 
 export type OnInvoiceGenerated = (invoices: Invoice[]) => void;
 
-export const WalletInvoicesList: React.FC<Props> = ({
+export const InvoicesList: React.FC<Props> = ({
   invoices,
   lang,
   onInvoiceGenerated,
 }) => {
   return (
-    <div>
-      <h2>History</h2>
-      <IonList>
+    <div className="grid grid-cols-1 place-items-center gap-y-[0%]">
+      <h2 className="h-full font-semibold text-lg">History</h2>
+      <IonList className="h-[80%] overflow-y-scroll">
         {invoices.map((invoice, idx) => (
           <IonItem key={idx}>
             <IonGrid>
