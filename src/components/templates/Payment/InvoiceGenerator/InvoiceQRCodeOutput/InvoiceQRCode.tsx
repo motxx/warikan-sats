@@ -5,5 +5,9 @@ interface Props {
 }
 
 export const InvoiceQRCode: React.FC<Props> = ({ data }) => {
-  return <QRCodeCanvas value={data} />;
+  return (
+    <div className="h-full w-full bg-white">
+      <QRCodeCanvas className="p-1" size={200} value={data} />
+    </div>
+  );
 };
