@@ -10,4 +10,7 @@ module.exports = {
     extend: {},
   },
   plugins: [],
+  fontFamily: {
+    roboto: ["Quicksand", "sans-serif"],
+  },
 };

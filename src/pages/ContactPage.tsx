@@ -15,6 +15,13 @@ export const ContactPage: React.FC = () => {
   const history = [
     { date: "2023-10-09", event: "Aliceから500円を受け取った" },
     { date: "2023-10-08", event: "Bobに500円を支払った" },
+    { date: "2023-10-08", event: "Bobに500円を支払った" },
+    { date: "2023-10-08", event: "Bobに500円を支払った" },
+    { date: "2023-10-08", event: "Bobに500円を支払った" },
+    { date: "2023-10-08", event: "Bobに500円を支払った" },
+    { date: "2023-10-08", event: "Bobに500円を支払った" },
+    { date: "2023-10-08", event: "Bobに500円を支払った" },
+    { date: "2023-10-08", event: "Bobに500円を支払った" },
   ];
 
   return (

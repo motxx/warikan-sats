@@ -8,10 +8,8 @@ type Props = {
 
 export const InvoiceQRCodeOutput: React.FC<Props> = ({ invoiceData }) => {
   return (
-    <div className="h-[200px] w-[200px]">
-      <div className={invoiceData == EmptyInvoiceData ? "blur" : ""}>
-        <InvoiceQRCode data={invoiceData} />
-      </div>
+    <div className={invoiceData == EmptyInvoiceData ? "blur" : ""}>
+      <InvoiceQRCode data={invoiceData} />
     </div>
   );
 };

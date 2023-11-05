@@ -10,7 +10,7 @@ export const PrimaryButton: React.FC<Props> = ({ children, onClick }) => {
   return (
     <IonButton
       color="primary"
-      className="h-full w-full text-xs font-semibold"
+      className="h-full w-full m-0 text-xs font-semibold"
       onClick={onClick}
     >
       {children}

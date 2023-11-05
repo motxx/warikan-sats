@@ -5,8 +5,8 @@ import { InvoiceGenerator } from "./Payment/InvoiceGenerator";
 export const PaymentTemplate: React.FC = () => {
   return (
     <IonContent>
-      <div className="grid grid-cols-1 place-items-center h-[95%] overflow-y-clip">
-        <div className="grid grid-cols-1 place-items-center h-full w-[50%] min-w-[375px]">
+      <div className="flex flex-col place-items-center h-[95%]">
+        <div className="flex flex-col place-items-center h-full w-[50%] min-w-[375px] overflow-y-scroll">
           <InvoiceGenerator />
         </div>
       </div>

@@ -11,14 +11,16 @@ export const InvoiceGenerator: React.FC<Props> = ({}) => {
   const [amount, setAmount] = React.useState(0);
   const [invoiceData, setInvoiceData] = React.useState(EmptyInvoiceData);
   return (
-    <>
+    <div className="flex flex-col place-items-center">
       <InvoiceInputForm onChange={setAmount} />
-      <GenerateInvoiceButton
-        amount={amount}
-        lang="ja"
-        onInvoiceGenerated={setInvoiceData}
-      />
+      <div className="w-full pt-[5%] pb-[5%]">
+        <GenerateInvoiceButton
+          amount={amount}
+          lang="ja"
+          onInvoiceGenerated={setInvoiceData}
+        />
+      </div>
       <InvoiceQRCodeOutput invoiceData={invoiceData} />
-    </>
+    </div>
   );
 };
