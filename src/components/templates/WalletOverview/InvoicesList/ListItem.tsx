@@ -1,5 +1,5 @@
 import { IonCol, IonRow } from "@ionic/react";
-import { Label } from "../../../atoms/Label";
+import { Label } from "../../../atoms/texts/Label";
 import { AmountChange } from "./Item/AmountChange";
 
 type Props = {

@@ -1,5 +1,5 @@
 import { IonLabel } from "@ionic/react";
-import { Amount } from "../../../../atoms/Amount";
+import { Amount } from "../../../../atoms/texts/Amount";
 
 type Props = {
   type: "sent" | "received";

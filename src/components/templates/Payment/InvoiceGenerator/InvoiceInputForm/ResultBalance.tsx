@@ -1,14 +1,14 @@
 import React from "react";
 import { IonCard, IonCardContent } from "@ionic/react";
-import { Amount } from "../atoms/Amount";
-import { fromSats } from "../../services/currency";
+import { Amount } from "../../../../atoms/texts/Amount";
+import { fromSats } from "../../../../../services/currency";
 
 type Props = {
   balance: number; // sats
   lang: "ja" | "en";
 };
 
-export const WalletBalance: React.FC<Props> = ({ balance, lang }) => {
+export const ResultBalance: React.FC<Props> = ({ balance, lang }) => {
   return (
     <IonCard>
       <IonCardContent>

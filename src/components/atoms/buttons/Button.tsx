@@ -1,3 +1,4 @@
+import { IonButton } from "@ionic/react";
 import React from "react";
 
 type Props = {
@@ -6,5 +7,5 @@ type Props = {
 };
 
 export const Button: React.FC<Props> = ({ children, onClick }) => {
-  return <button onClick={onClick}>{children}</button>;
+  return <IonButton onClick={onClick}>{children}</IonButton>;
 };

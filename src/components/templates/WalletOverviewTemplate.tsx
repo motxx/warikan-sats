@@ -1,7 +1,7 @@
 import React from "react";
 import { IonContent } from "@ionic/react";
 import { Invoice } from "./WalletOverview/InvoicesList/ListItem";
-import { WalletBalance } from "./WalletBalance";
+import { WalletBalance } from "./WalletOverview/WalletBalance";
 import { InvoicesList } from "./WalletOverview/InvoicesList";
 
 type Props = {
