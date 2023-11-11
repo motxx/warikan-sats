@@ -16,7 +16,9 @@ jobs:
           node-version: "16.x"
       - name: Install Dependencies
         run: yarn install
-      - name: Build and Deploy
+      - name: Build
+        run: yarn build
+      - name: Deploy
         run: yarn deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
