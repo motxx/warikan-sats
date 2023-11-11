@@ -1,6 +1,6 @@
 import React from "react";
-import { Invoice, InvoicesListItem } from "./InvoicesList/ListItem";
-import { IonGrid, IonItem, IonList } from "@ionic/react";
+import { Invoice, InvoicesListItem } from "./InvoicesList/ContactListItem";
+import { IonList } from "@ionic/react";
 
 type Props = {
   invoices: Invoice[];
@@ -20,11 +20,7 @@ export const InvoicesList: React.FC<Props> = ({
       <h2 className="h-full font-semibold text-lg">History</h2>
       <IonList className="h-[80%] overflow-y-scroll">
         {invoices.map((invoice, idx) => (
-          <IonItem key={idx}>
-            <IonGrid>
-              <InvoicesListItem lang={lang} invoice={invoice} />
-            </IonGrid>
-          </IonItem>
+          <InvoicesListItem lang={lang} key={idx} invoice={invoice} />
         ))}
       </IonList>
     </div>

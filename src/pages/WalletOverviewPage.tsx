@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { IonPage } from "@ionic/react";
 import { WalletOverviewTemplate } from "../components/templates/WalletOverviewTemplate";
-import { Invoice } from "../components/templates/WalletOverview/InvoicesList/ListItem";
+import { Invoice } from "../components/templates/WalletOverview/InvoicesList/ContactListItem";
 import { Menu } from "../components/templates/Common/Menu";
 import { Header } from "../components/templates/Common/Header";
 

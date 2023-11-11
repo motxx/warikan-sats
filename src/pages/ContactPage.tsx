@@ -1,50 +1,49 @@
 import React from "react";
-import {
-  IonContent,
-  IonPage,
-  IonList,
-  IonItem,
-  IonLabel,
-  IonCard,
-  IonCardContent,
-} from "@ionic/react";
+import { IonPage } from "@ionic/react";
 import { Menu } from "../components/templates/Common/Menu";
 import { Header } from "../components/templates/Common/Header";
+import { ContactTemplate } from "../components/templates/ContactTemplate";
+import { Contact } from "../components/templates/Contact/ContactSearch/ContactList/ContactListItem";
 
 export const ContactPage: React.FC = () => {
-  const history = [
-    { date: "2023-10-09", event: "Aliceから500円を受け取った" },
-    { date: "2023-10-08", event: "Bobに500円を支払った" },
-    { date: "2023-10-08", event: "Bobに500円を支払った" },
-    { date: "2023-10-08", event: "Bobに500円を支払った" },
-    { date: "2023-10-08", event: "Bobに500円を支払った" },
-    { date: "2023-10-08", event: "Bobに500円を支払った" },
-    { date: "2023-10-08", event: "Bobに500円を支払った" },
-    { date: "2023-10-08", event: "Bobに500円を支払った" },
-    { date: "2023-10-08", event: "Bobに500円を支払った" },
+  const contacts = [
+    {
+      name: "Natori Sana",
+      address: "0x22C543708B566cB96Ec4299A4c57b13731cf7f48",
+    },
+    {
+      name: "Hoshimiya Ichigo",
+      address: "0x122bBddBc8e80F42b7d0d413418344ee2834264d",
+    },
+    {
+      name: "Nakahara Misaki",
+      address: "0x320ca244AD9A30311Ebf2FB2341D5f0921979773",
+    },
+    {
+      name: "Nakahara Misaki",
+      address: "0x320ca244AD9A30311Ebf2FB2341D5f0921979773",
+    },
+    {
+      name: "Nakahara Misaki",
+      address: "0x320ca244AD9A30311Ebf2FB2341D5f0921979773",
+    },
+    {
+      name: "Nakahara Misaki",
+      address: "0x320ca244AD9A30311Ebf2FB2341D5f0921979773",
+    },
   ];
+
+  const onContactAdded = (newContact: Contact) => {
+    console.log({ newContact });
+    contacts.push(newContact); // not re-rendered properly
+  };
 
   return (
     <>
       <Menu />
       <IonPage id="main-content">
         <Header />
-        <IonContent className="ion-padding">
-          <IonCard>
-            <IonCardContent>
-              <IonList>
-                {history.map((item, idx) => (
-                  <IonItem key={idx}>
-                    <IonLabel>
-                      <h2>{item.date}</h2>
-                      <p>{item.event}</p>
-                    </IonLabel>
-                  </IonItem>
-                ))}
-              </IonList>
-            </IonCardContent>
-          </IonCard>
-        </IonContent>
+        <ContactTemplate contacts={contacts} onContactAdded={onContactAdded} />
       </IonPage>
     </>
   );
