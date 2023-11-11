@@ -36,7 +36,7 @@ jobs:
 
       - name: Build
         run: |
-          ionic build --prod
+          yarn build
           ls dist
 
       - name: Deploy
