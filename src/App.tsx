@@ -35,7 +35,7 @@ import "@ionic/react/css/display.css";
 import "./theme/variables.css";
 
 /* Tailwind styles */
-import './theme/tailwind.css';
+import "./theme/tailwind.css";
 
 setupIonicReact();
 
@@ -44,29 +44,29 @@ const App: React.FC = () => (
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
-          <Route exact path="/wallet">
+          <Route exact path="/warikan-sats/wallet">
             <WalletOverviewPage />
           </Route>
-          <Route exact path="/payment">
+          <Route exact path="/warikan-sats/payment">
             <PaymentPage />
           </Route>
-          <Route path="/contact">
+          <Route path="/warikan-sats/contact">
             <ContactPage />
           </Route>
           <Route exact path="/">
-            <Redirect to="/wallet" />
+            <Redirect to="/warikan-sats/wallet" />
           </Route>
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
-          <IonTabButton tab="wallet" href="/wallet">
+          <IonTabButton tab="wallet" href="/warikan-sats/wallet">
             <IonIcon aria-hidden="true" icon={wallet} />
             <IonLabel>Wallet</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="payment" href="/payment">
+          <IonTabButton tab="payment" href="/warikan-sats/payment">
             <IonIcon aria-hidden="true" icon={send} />
             <IonLabel>Invoice</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="contact" href="/contact">
+          <IonTabButton tab="contact" href="/warikan-sats/contact">
             <IonIcon aria-hidden="true" icon={peopleOutline} />
             <IonLabel>Contact</IonLabel>
           </IonTabButton>
