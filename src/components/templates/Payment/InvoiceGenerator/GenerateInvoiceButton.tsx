@@ -17,7 +17,7 @@ const onClick = (props: Props) => {
 export const GenerateInvoiceButton: React.FC<Props> = (props: Props) => {
   return (
     <PrimaryButton onClick={() => onClick(props)}>
-      GenerateInvoice
+      GENERATE INVOICE
     </PrimaryButton>
   );
 };

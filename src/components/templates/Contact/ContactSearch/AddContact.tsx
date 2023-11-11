@@ -15,6 +15,8 @@ const onClick = (props: Props) => {
 
 export const AddContact: React.FC<Props> = (props: Props) => {
   return (
-    <SecondaryButton onClick={() => onClick(props)}>AddContact</SecondaryButton>
+    <SecondaryButton onClick={() => onClick(props)}>
+      ADD CONTACT
+    </SecondaryButton>
   );
 };

@@ -11,6 +11,7 @@ export const SecondaryButton: React.FC<Props> = ({ children, onClick }) => {
     <IonButton
       color="secondary"
       className="h-full w-full m-0 text-xs font-semibold"
+      style={{ textTransform: "none" }}
       onClick={onClick}
     >
       {children}
