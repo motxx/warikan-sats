@@ -53,7 +53,7 @@ const App: React.FC = () => (
           <Route path="/warikan-sats/contact">
             <ContactPage />
           </Route>
-          <Route exact path="/">
+          <Route exact path="/warikan-sats">
             <Redirect to="/warikan-sats/wallet" />
           </Route>
         </IonRouterOutlet>
