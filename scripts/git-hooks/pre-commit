@@ -1,0 +1,10 @@
+#!/bin/sh
+set -e
+
+if command -v yarn >/dev/null 2>&1; then
+  yarn lint:strict
+elif command -v corepack >/dev/null 2>&1; then
+  corepack yarn lint:strict
+else
+  npm run lint:strict
+fi
