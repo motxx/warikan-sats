@@ -41,8 +41,8 @@ run_local() {
 }
 
 run_docker() {
-  step "Docker quality gate"
-  echo "Docker-backed NWC regtest E2E is not implemented yet; see docs/issues/pending/0007-add-nwc-regtest-warikan-e2e.md"
+  step "Regtest E2E gate"
+  run_check "NWC regtest split-payment E2E" deno task test:e2e:regtest
 }
 
 case "$MODE" in

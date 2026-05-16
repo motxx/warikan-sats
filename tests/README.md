@@ -8,6 +8,8 @@ The test harness is Deno-first.
   adapters.
 - `tests/integration`: Deno integration tests that may compose multiple local
   modules but do not require the regtest wallet stack.
+- `tests/e2e`: Deno end-to-end tests that start the local NWC regtest wallet
+  environment and complete user workflows through the client service contracts.
 - `tests/helpers`: shared fakes and test utilities.
 - `src/**/*.test.tsx`: existing UI smoke tests that still run through Vitest
   under `deno task test:ui`.
@@ -22,9 +24,8 @@ deno task test:e2e:regtest
 deno task test:all
 ```
 
-`test:e2e:regtest` is a named placeholder until
-`docs/issues/pending/0006-add-nwc-regtest-wallet-environment.md` and
-`docs/issues/pending/0007-add-nwc-regtest-warikan-e2e.md` are implemented.
+`test:e2e:regtest` starts the local NWC regtest wallet environment in a
+temporary directory and completes a multi-participant split-payment flow.
 
 ## NWC Tests
 

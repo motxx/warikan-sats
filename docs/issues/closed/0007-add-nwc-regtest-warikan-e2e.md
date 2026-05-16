@@ -41,3 +41,42 @@ not require an operator-run backend.
 - Assert that invoices advance only after settlement.
 - Assert that no operator backend is required during the flow.
 - Assert the final all-paid state and record failures with useful artifacts.
+
+Completed: 2026-05-16
+
+## Resolution
+
+Implemented by updating:
+
+- `deno.json`
+- `docs/nwc-regtest-environment.md`
+- `docs/review-harness.md`
+- `scripts/nwc-regtest.ts`
+- `scripts/test-all.sh`
+- `tests/README.md`
+- `tests/e2e/nwc_regtest_warikan.test.ts`
+- `tests/helpers/regtest_nwc_transport.ts`
+
+Verified with:
+
+- `deno task lint:strict`
+- `deno task test:scripts`
+- `deno task test:integration`
+- `deno task test:e2e:regtest`
+- `deno task test:all:docker`
+
+Harness update:
+
+- Added `tests/e2e/nwc_regtest_warikan.test.ts` and wired
+  `deno task test:e2e:regtest` plus `deno task test:all:docker` to the
+  regtest split-payment completion flow.
+
+Review residuals:
+
+- Browser-level automation can be added later if UI DOM interaction needs
+  coverage beyond the client service contracts.
+
+Follow-up:
+
+- `0011-connect-nwc-on-mainnet` can now use this regtest harness as the
+  no-backend regression gate.

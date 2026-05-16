@@ -3,8 +3,8 @@
 The local NWC regtest environment is a deterministic, file-backed wallet
 harness for connector and split-payment tests. It does not talk to mainnet,
 does not require an operator backend, and does not hold funds. Its job is to
-give the client and E2E tests stable NWC-shaped wallet behavior before the
-browser flow is exercised by `docs/issues/pending/0007-add-nwc-regtest-warikan-e2e.md`.
+give the client and E2E tests stable NWC-shaped wallet behavior for
+multi-participant split-payment coverage.
 
 ## Stack
 
@@ -47,9 +47,14 @@ and fake invoice state. Do not commit this file. If a future real regtest stack
 adds credentials or node data, keep them under `.local/nwc-regtest/` or another
 ignored path.
 
+The receiving wallet connection string includes a deterministic local-only NWC
+credential so the connector parser exercises the same required URI fields as a
+real wallet. It is not fund-bearing and is only valid inside this file-backed
+harness.
+
 ## Review Routing
 
 Failures in start, stop, status, reset, or health belong to this environment
 and should update this document, `scripts/nwc-regtest.ts`, or
-`tests/integration/nwc_regtest_environment.test.ts`. Full browser split-payment
-failures belong to issue `0007`.
+`tests/integration/nwc_regtest_environment.test.ts`. Split-payment completion
+failures should update `tests/e2e/nwc_regtest_warikan.test.ts`.

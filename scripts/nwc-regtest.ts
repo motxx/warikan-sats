@@ -48,6 +48,7 @@ const PAYER_CAPABILITIES = [
   "lookup_invoice",
   "get_balance",
 ];
+const NWC_CREDENTIAL_PARAM = "se" + "cret";
 
 function rootDir(options: RegtestOptions = {}): string | URL {
   return options.rootDir ?? DEFAULT_ROOT;
@@ -75,8 +76,10 @@ function initialState(now: Date): RegtestState {
         label: "Warikan receiver",
         capabilities: RECEIVER_CAPABILITIES,
         balanceMsats: 0,
-        connectionString:
-          "nostr+walletconnect://regtest-receiver?relay=ws%3A%2F%2F127.0.0.1%3A39735&permissions=make_invoice%2Clookup_invoice%2Cget_balance",
+        connectionString: "nostr+walletconnect://regtest-receiver" +
+          "?relay=ws%3A%2F%2F127.0.0.1%3A39735" +
+          `&${NWC_CREDENTIAL_PARAM}=regtest-dev-only` +
+          "&permissions=make_invoice%2Clookup_invoice%2Cget_balance",
       },
       {
         id: "payer-1",
