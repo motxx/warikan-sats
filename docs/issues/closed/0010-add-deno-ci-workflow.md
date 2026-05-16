@@ -41,3 +41,34 @@ E2E coverage.
   and `0007` are ready.
 - Update `docs/development.md`, `docs/review-harness.md`, and README command
   examples so local and CI commands stay equivalent.
+
+Completed: 2026-05-16
+
+## Resolution
+
+Implemented by updating:
+
+- `.github/workflows/gh-pages.yml`
+- `README.md`
+- `docs/development.md`
+- `docs/review-harness.md`
+
+Verified with:
+
+- `deno task lint:paths`
+- `deno task test:all:docker`
+- `deno task build`
+
+Harness update:
+
+- CI now runs `deno task ci`, `deno task test:e2e:regtest`, and `deno task
+  build` through Deno setup jobs.
+
+Review residuals:
+
+- `actionlint` was not available in the local environment, so workflow syntax
+  will be finally checked by GitHub Actions after push.
+
+Follow-up:
+
+- None

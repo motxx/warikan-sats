@@ -29,7 +29,7 @@ test, or issue over relying on human memory.
 | NWC regtest wallet environment drift | Extend `scripts/nwc-regtest.ts`, `tests/integration/nwc_regtest_environment.test.ts`, and `docs/nwc-regtest-environment.md`. |
 | NWC connection design drift | Update `docs/nwc-wallet-connection.md` and dependent issue acceptance criteria. |
 | Deno test harness drift | Update `tests/README.md`, `deno.json`, and `scripts/test-all.sh` together. |
-| Package-manager, CI command, or README command drift | Update `package.json`, CI workflow, and README examples in the same change. |
+| Package-manager, CI command, deploy, or README command drift | Update `package.json`, `deno.json`, `.github/workflows/gh-pages.yml`, `docs/development.md`, and README examples in the same change. |
 
 ## Residual Review
 
