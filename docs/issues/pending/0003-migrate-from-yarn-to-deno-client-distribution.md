@@ -14,6 +14,8 @@ Depends on:
 
 Blocks:
 - 0004-design-nwc-wallet-connection
+- 0009-add-deno-test-foundation
+- 0010-add-deno-ci-workflow
 - 0007-add-nwc-regtest-warikan-e2e
 
 ## Summary

@@ -11,6 +11,7 @@ feature
 
 Depends on:
 - 0008-implement-nwc-wallet-connector
+- 0009-add-deno-test-foundation
 
 Blocks:
 - 0007-add-nwc-regtest-warikan-e2e

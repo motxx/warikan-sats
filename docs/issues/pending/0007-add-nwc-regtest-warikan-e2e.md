@@ -11,6 +11,7 @@ maintenance
 
 Depends on:
 - 0003-migrate-from-yarn-to-deno-client-distribution
+- 0009-add-deno-test-foundation
 - 0008-implement-nwc-wallet-connector
 - 0005-add-sequential-split-invoice-ui
 - 0006-add-nwc-regtest-wallet-environment

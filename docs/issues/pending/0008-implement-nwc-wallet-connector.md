@@ -11,6 +11,7 @@ feature
 
 Depends on:
 - 0004-design-nwc-wallet-connection
+- 0009-add-deno-test-foundation
 
 Blocks:
 - 0005-add-sequential-split-invoice-ui
