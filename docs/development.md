@@ -10,13 +10,14 @@ deno task test:all:docker
 
 `deno task test:all` is the local quality gate: Deno source lint, repository
 lints, script tests, unit tests, integration tests, TypeScript checks, UI smoke
-tests, and production build. `deno task test:all:docker` runs the NWC regtest
-E2E gate for the multi-participant split-payment flow.
+tests, and production build. `deno task test:all:docker` starts real Bitcoin
+Core and Core Lightning regtest containers and completes a Lightning invoice
+payment smoke test.
 
 GitHub Actions uses the same Deno commands:
 
 - `deno task ci` for the local quality gate.
-- `deno task test:e2e:regtest` for the regtest split-payment E2E gate.
+- `deno task test:e2e:regtest` for the real Lightning regtest smoke gate.
 - `deno task build` for static client artifact verification and GitHub Pages
   deployment.
 
@@ -30,8 +31,12 @@ runs the strict lint gate.
 - `src/components/templates`: screen-level UI composition.
 - `src/components/atoms`: shared small UI primitives.
 - `src/services`: currency and invoice domain helpers.
-- `tests/e2e/nwc_regtest_warikan.test.ts`: regtest E2E coverage for the
-  NWC-backed split-payment flow.
+- `docker-compose.lightning-regtest.yml`: real Bitcoin and Core Lightning
+  regtest stack.
+- `scripts/lightning-regtest.ts`: Docker Lightning regtest control and smoke
+  test harness.
+- `tests/e2e/nwc_regtest_warikan.test.ts`: fake/file-backed NWC flow coverage
+  for the NWC-shaped client contract.
 - `docs/nwc-wallet-connection.md`: NWC-only wallet connection design.
 
 ## Harness
@@ -53,6 +58,8 @@ runs the strict lint gate.
 - Run `deno task test:scripts` after changing repository scripts.
 - Run `deno task build` after changing Vite, TypeScript, package metadata, or
   deploy behavior.
-- Run `deno task test:e2e:regtest` after changing NWC connector, regtest, or
-  split-payment completion behavior.
+- Run `deno task test:e2e:nwc-fake` after changing NWC connector or
+  split-payment sequence behavior.
+- Run `deno task test:e2e:regtest` after changing Docker, Bitcoin, Lightning,
+  or real regtest payment behavior.
 - Run `deno task lint:strict` before sending changes to CI.

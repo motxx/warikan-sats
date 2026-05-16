@@ -13,7 +13,8 @@
     "test:unit": "deno test --allow-read tests/unit",
     "test:integration": "deno test --allow-read --allow-write tests/integration",
     "test:ui": "deno run -A npm:vitest@^0.32.2 run src --environment jsdom --globals",
-    "test:e2e:regtest": "deno test --allow-read --allow-write tests/e2e",
+    "test:e2e:nwc-fake": "deno test --allow-read --allow-write tests/e2e",
+    "test:e2e:regtest": "deno run --allow-run --allow-read scripts/lightning-regtest.ts smoke",
     "test:scripts": "deno test --allow-read --allow-run scripts/*.test.ts",
     "test:all": "./scripts/test-all.sh --local",
     "test:all:docker": "./scripts/test-all.sh --docker",
@@ -24,6 +25,12 @@
     "regtest:nwc:status": "deno run --allow-read --allow-write scripts/nwc-regtest.ts status",
     "regtest:nwc:reset": "deno run --allow-read --allow-write scripts/nwc-regtest.ts reset",
     "regtest:nwc:health": "deno run --allow-read --allow-write scripts/nwc-regtest.ts health",
+    "regtest:lightning:start": "deno run --allow-run --allow-read scripts/lightning-regtest.ts start",
+    "regtest:lightning:stop": "deno run --allow-run --allow-read scripts/lightning-regtest.ts stop",
+    "regtest:lightning:status": "deno run --allow-run --allow-read scripts/lightning-regtest.ts status",
+    "regtest:lightning:reset": "deno run --allow-run --allow-read scripts/lightning-regtest.ts reset",
+    "regtest:lightning:health": "deno run --allow-run --allow-read scripts/lightning-regtest.ts health",
+    "regtest:lightning:smoke": "deno run --allow-run --allow-read scripts/lightning-regtest.ts smoke",
     "setup:hooks": "git config core.hooksPath scripts/git-hooks"
   },
   "imports": {

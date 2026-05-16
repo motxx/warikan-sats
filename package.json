@@ -21,6 +21,7 @@
     "test:all:docker": "deno task test:all:docker",
     "ci": "deno task ci",
     "ci:docker": "deno task ci:docker",
+    "regtest:lightning:smoke": "deno task regtest:lightning:smoke",
     "setup:hooks": "deno task setup:hooks"
   },
   "dependencies": {

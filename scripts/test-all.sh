@@ -41,8 +41,8 @@ run_local() {
 }
 
 run_docker() {
-  step "Regtest E2E gate"
-  run_check "NWC regtest split-payment E2E" deno task test:e2e:regtest
+  step "Docker Lightning regtest gate"
+  run_check "real Lightning regtest smoke payment" deno task test:e2e:regtest
 }
 
 case "$MODE" in

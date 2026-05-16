@@ -1,10 +1,13 @@
-# NWC Regtest Environment
+# Fake NWC Regtest Environment
 
-The local NWC regtest environment is a deterministic, file-backed wallet
+The local fake NWC regtest environment is a deterministic, file-backed wallet
 harness for connector and split-payment tests. It does not talk to mainnet,
-does not require an operator backend, and does not hold funds. Its job is to
-give the client and E2E tests stable NWC-shaped wallet behavior for
-multi-participant split-payment coverage.
+does not require an operator backend, does not hold funds, and does not start
+Bitcoin or Lightning nodes. Its job is to give the client and tests stable
+NWC-shaped wallet behavior for multi-participant split-payment coverage.
+
+Real Bitcoin and Lightning regtest coverage lives in
+`docker-compose.lightning-regtest.yml` and `scripts/lightning-regtest.ts`.
 
 ## Stack
 
@@ -54,7 +57,8 @@ harness.
 
 ## Review Routing
 
-Failures in start, stop, status, reset, or health belong to this environment
-and should update this document, `scripts/nwc-regtest.ts`, or
-`tests/integration/nwc_regtest_environment.test.ts`. Split-payment completion
-failures should update `tests/e2e/nwc_regtest_warikan.test.ts`.
+Failures in fake NWC start, stop, status, reset, or health belong to this
+environment and should update this document, `scripts/nwc-regtest.ts`, or
+`tests/integration/nwc_regtest_environment.test.ts`. Real Lightning payment
+failures should update `scripts/lightning-regtest.ts` and
+`docker-compose.lightning-regtest.yml`.
