@@ -16,6 +16,7 @@ Depends on:
 Blocks:
 - 0005-add-sequential-split-invoice-ui
 - 0007-add-nwc-regtest-warikan-e2e
+- 0011-connect-nwc-on-mainnet
 
 ## Summary
 

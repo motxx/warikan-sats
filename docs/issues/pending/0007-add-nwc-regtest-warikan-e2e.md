@@ -17,7 +17,7 @@ Depends on:
 - 0006-add-nwc-regtest-wallet-environment
 
 Blocks:
-- None
+- 0011-connect-nwc-on-mainnet
 
 ## Summary
 
