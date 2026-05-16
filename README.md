@@ -7,6 +7,39 @@ With this "warikan" app, you can equally split the Fiat amount and issue invoice
 
 ## Development
 
+### Run Locally
+
+This project uses Deno tasks. Install Deno, then start the Vite development
+server:
+
+```sh
+deno task dev
+```
+
+Open the local URL printed by Vite, usually:
+
+```text
+http://localhost:5173/
+```
+
+The app is designed for smartphone-sized screens. To test it from a phone on
+the same network, bind the dev server to your local network interface:
+
+```sh
+deno task dev --host 0.0.0.0
+```
+
+Then open `http://<your-computer-lan-ip>:5173/` from the phone.
+
+To check the production build locally:
+
+```sh
+deno task build
+deno task preview
+```
+
+### Quality Checks
+
 ```sh
 deno task lint:strict
 deno task test:all
