@@ -86,6 +86,14 @@ test("connects a wallet and clears the submitted connection secret from the UI",
   expect(screen.queryByText(fakeSecret)).toBeNull();
 });
 
+test("does not render an invoice QR before a split is created", async () => {
+  const wallet = new FakeWalletConnectionClient();
+  render(<InvoiceGenerator walletConnector={wallet} />);
+
+  expect(await screen.findByText("Split collection")).toBeTruthy();
+  expect(document.querySelector("canvas")).toBeNull();
+});
+
 test("reports invalid wallet connection strings without retaining the submitted value", async () => {
   const wallet = new FakeWalletConnectionClient();
   wallet.connectStatus = "error";

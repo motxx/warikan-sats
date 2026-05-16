@@ -1,18 +1,13 @@
 import React from "react";
 import { InvoiceQRCode } from "./InvoiceQRCodeOutput/InvoiceQRCode";
-import { EmptyInvoiceData } from "../InvoiceGenerator";
 
 type Props = {
   invoiceData: string;
-  muted?: boolean;
 };
 
-export const InvoiceQRCodeOutput: React.FC<Props> = ({
-  invoiceData,
-  muted = false,
-}) => {
+export const InvoiceQRCodeOutput: React.FC<Props> = ({ invoiceData }) => {
   return (
-    <div className={muted || invoiceData == EmptyInvoiceData ? "blur" : ""}>
+    <div>
       <InvoiceQRCode data={invoiceData} />
     </div>
   );

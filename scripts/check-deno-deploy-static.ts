@@ -23,8 +23,8 @@ assert(
 );
 assertStringIncludes(
   clientJavaScript,
-  '"/wallet"',
-  "Deno Deploy JavaScript bundle should route the root app to /wallet.",
+  '"/payment"',
+  "Deno Deploy JavaScript bundle should route the root app to /payment.",
 );
 
 async function readClientJavaScript(assetDir: string): Promise<string> {

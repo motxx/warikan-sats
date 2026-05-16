@@ -29,9 +29,6 @@ export interface WalletConnectionClient extends SplitInvoiceClient {
   disconnect(): Promise<void>;
 }
 
-export const EmptyInvoiceData =
-  "EMPTY00u1pj5fxaspp5dcqac89l07nhx3l6j7f5yhhhrsukzmt5433jt42kkaj3kcpp9kaqdqcu2d2rc56583f4g0zn2s79x4pcqzzsxqyz5vqsp5wtssdh7adu4q60pkxapqqnnep5ravsgcwxcmw664ggfslkllkvds9qyyssq9pl8npevwmpk8tz800sxeq2rt3quaxpvk89yt36zlnx0rudj7cy3jgmkr3du0l5whz32fgswm0tzzcf6tacg4lhh46tsg6asy4664acpfpr3p3";
-
 export const InvoiceGenerator: React.FC<Props> = ({ walletConnector }) => {
   const [input, setInput] = React.useState<InvoiceInputValue>({
     amount: 0,
@@ -77,7 +74,6 @@ export const InvoiceGenerator: React.FC<Props> = ({ walletConnector }) => {
   }, [client]);
 
   const activeInvoice = sequence ? getActiveSplitInvoice(sequence) : null;
-  const invoiceData = activeInvoice?.invoice ?? EmptyInvoiceData;
 
   const connectWallet = async () => {
     const submitted = connectionString.trim();
@@ -144,7 +140,14 @@ export const InvoiceGenerator: React.FC<Props> = ({ walletConnector }) => {
   };
 
   return (
-    <div className="flex flex-col place-items-center gap-5 w-full">
+    <div className="flex w-full flex-col place-items-center gap-6 pb-8">
+      <header className="w-full text-white">
+        <h1 className="m-0 text-3xl font-bold">Split collection</h1>
+        <p className="mt-2 text-sm text-white/70">
+          Connect your receiving wallet, create one invoice per participant, and
+          confirm each payment before moving to the next.
+        </p>
+      </header>
       <section className="w-full grid grid-cols-1 gap-3 text-white">
         <label
           className="text-xs font-semibold"
@@ -178,7 +181,7 @@ export const InvoiceGenerator: React.FC<Props> = ({ walletConnector }) => {
         </div>
       </section>
       <InvoiceInputForm onChange={setInput} />
-      <div className="w-full pt-[5%] pb-[5%]">
+      <div className="w-full">
         <GenerateInvoiceButton
           disabled={walletStatus !== "ready" || input.amount <= 0 ||
             sequence?.status === "checking"}
@@ -197,10 +200,9 @@ export const InvoiceGenerator: React.FC<Props> = ({ walletConnector }) => {
             </div>
           )
           : null}
-        <InvoiceQRCodeOutput
-          invoiceData={invoiceData}
-          muted={!activeInvoice || sequence?.status === "completed"}
-        />
+        {activeInvoice
+          ? <InvoiceQRCodeOutput invoiceData={activeInvoice.invoice} />
+          : null}
         <div className="min-h-[1.5rem] text-xs text-white text-center">
           {sequence?.status === "completed" ? "All paid" : status}
         </div>
