@@ -25,6 +25,7 @@ runs the strict lint gate.
 - `src/services`: currency and invoice domain helpers.
 - `docs/issues/pending/0007-add-nwc-regtest-warikan-e2e.md`: planned browser
   E2E coverage for the NWC-backed split-payment flow.
+- `docs/nwc-wallet-connection.md`: NWC-only wallet connection design.
 
 ## Harness
 

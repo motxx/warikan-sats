@@ -49,3 +49,31 @@ broader Lightning node integration design that was originally tracked in
   invoice creation failures, and payment-status polling.
 - Route NWC-backed integration coverage through `docs/review-harness.md`.
 - Update `docs/development.md` with local configuration guidance.
+
+Completed: 2026-05-16
+
+## Resolution
+
+Implemented by updating:
+
+- `docs/nwc-wallet-connection.md`
+- `docs/development.md`
+- `docs/review-harness.md`
+
+Verified with:
+
+- `deno task lint:paths`
+
+Harness update:
+
+- `docs/review-harness.md` now routes NWC connection design drift to
+  `docs/nwc-wallet-connection.md`.
+
+Review residuals:
+
+- Implementation remains tracked by
+  `docs/issues/pending/0008-implement-nwc-wallet-connector.md`.
+
+Follow-up:
+
+- None
