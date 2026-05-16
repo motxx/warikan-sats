@@ -18,9 +18,14 @@ import {
   type SplitInvoiceClient,
   type SplitInvoiceSequence,
 } from "../../../services/splitInvoiceSequence";
+import {
+  type BitcoinConnectClient,
+  createBitcoinConnectNwcClient,
+} from "../../../services/bitcoinConnect";
 
 type Props = {
   walletConnector?: WalletConnectionClient;
+  bitcoinConnectClient?: BitcoinConnectClient;
 };
 
 export interface WalletConnectionClient extends SplitInvoiceClient {
@@ -29,7 +34,10 @@ export interface WalletConnectionClient extends SplitInvoiceClient {
   disconnect(): Promise<void>;
 }
 
-export const InvoiceGenerator: React.FC<Props> = ({ walletConnector }) => {
+export const InvoiceGenerator: React.FC<Props> = ({
+  walletConnector,
+  bitcoinConnectClient,
+}) => {
   const [input, setInput] = React.useState<InvoiceInputValue>({
     amount: 0,
     participantCount: 1,
@@ -46,10 +54,15 @@ export const InvoiceGenerator: React.FC<Props> = ({ walletConnector }) => {
     null,
   );
   const [status, setStatus] = React.useState("");
+  const [showManualConnection, setShowManualConnection] = React.useState(false);
 
   const client = React.useMemo<WalletConnectionClient>(
     () => walletConnector ?? createMainnetNwcConnector(),
     [walletConnector],
+  );
+  const bitcoinConnect = React.useMemo<BitcoinConnectClient>(
+    () => bitcoinConnectClient ?? createBitcoinConnectNwcClient(),
+    [bitcoinConnectClient],
   );
 
   React.useEffect(() => {
@@ -76,6 +89,26 @@ export const InvoiceGenerator: React.FC<Props> = ({ walletConnector }) => {
   const activeInvoice = sequence ? getActiveSplitInvoice(sequence) : null;
   const isWalletReady = walletStatus === "ready";
 
+  const connectWithBitcoinConnect = async () => {
+    setConnectionString("");
+    setSequence(null);
+    setStatus("");
+    setWalletStatus("checking");
+    setWalletMessage(nwcConnectionStatusMessage("checking"));
+
+    try {
+      const connectedStatus = await client.connect(
+        await bitcoinConnect.connect(),
+      );
+      setWalletStatus(connectedStatus);
+      setWalletMessage(nwcConnectionStatusMessage(connectedStatus));
+      setShowManualConnection(connectedStatus !== "ready");
+    } catch (error) {
+      setWalletStatus("error");
+      setWalletMessage(paymentErrorMessage(error));
+    }
+  };
+
   const connectWallet = async () => {
     const submitted = connectionString.trim();
     setConnectionString("");
@@ -97,9 +130,11 @@ export const InvoiceGenerator: React.FC<Props> = ({ walletConnector }) => {
 
   const disconnectWallet = async () => {
     await client.disconnect();
+    await bitcoinConnect.disconnect();
     setConnectionString("");
     setSequence(null);
     setStatus("");
+    setShowManualConnection(false);
     setWalletStatus("missing");
     setWalletMessage(nwcConnectionStatusMessage("missing"));
   };
@@ -174,23 +209,42 @@ export const InvoiceGenerator: React.FC<Props> = ({ walletConnector }) => {
         </div>
         {isWalletReady ? null : (
           <>
-            <label className="sr-only" htmlFor="nwc-connection-string">
-              Nostr Wallet Connect
-            </label>
-            <textarea
-              id="nwc-connection-string"
-              aria-label="Nostr Wallet Connect connection string"
-              className="min-h-[4.5rem] w-full resize-y rounded-lg border border-white/30 bg-transparent p-3 text-base leading-5 text-white placeholder:text-white/50"
-              value={connectionString}
-              onChange={(event) => setConnectionString(event.target.value)}
-              placeholder="nostr+walletconnect://..."
-              spellCheck={false}
-            />
             <GenerateInvoiceButton
-              label="CONNECT"
+              label="ウォレットを接続"
               disabled={walletStatus === "checking"}
-              onGenerate={connectWallet}
+              onGenerate={connectWithBitcoinConnect}
             />
+            <button
+              type="button"
+              className="min-h-11 rounded-lg border border-white/25 px-3 text-sm font-semibold text-white"
+              onClick={() => setShowManualConnection((visible) => !visible)}
+            >
+              NWC文字列で接続
+            </button>
+            {showManualConnection
+              ? (
+                <>
+                  <label className="sr-only" htmlFor="nwc-connection-string">
+                    Nostr Wallet Connect
+                  </label>
+                  <textarea
+                    id="nwc-connection-string"
+                    aria-label="Nostr Wallet Connect connection string"
+                    className="min-h-[4.5rem] w-full resize-y rounded-lg border border-white/30 bg-transparent p-3 text-base leading-5 text-white placeholder:text-white/50"
+                    value={connectionString}
+                    onChange={(event) =>
+                      setConnectionString(event.target.value)}
+                    placeholder="nostr+walletconnect://..."
+                    spellCheck={false}
+                  />
+                  <GenerateInvoiceButton
+                    label="CONNECT"
+                    disabled={walletStatus === "checking"}
+                    onGenerate={connectWallet}
+                  />
+                </>
+              )
+              : null}
           </>
         )}
       </section>

@@ -5,6 +5,7 @@ import {
   InvoiceGenerator,
   type WalletConnectionClient,
 } from "./InvoiceGenerator";
+import type { BitcoinConnectClient } from "../../../services/bitcoinConnect";
 import type {
   NwcConnectionStatus,
   NwcCreateInvoiceInput,
@@ -74,6 +75,38 @@ class FakeWalletConnectionClient implements WalletConnectionClient {
   }
 }
 
+class FakeBitcoinConnectClient implements BitcoinConnectClient {
+  connectionString = validConnectionString;
+  disconnected = false;
+
+  connect(): Promise<string> {
+    return Promise.resolve(this.connectionString);
+  }
+
+  disconnect(): Promise<void> {
+    this.disconnected = true;
+    return Promise.resolve();
+  }
+}
+
+test("connects through Bitcoin Connect as the primary wallet flow", async () => {
+  const wallet = new FakeWalletConnectionClient();
+  const bitcoinConnect = new FakeBitcoinConnectClient();
+  render(
+    <InvoiceGenerator
+      walletConnector={wallet}
+      bitcoinConnectClient={bitcoinConnect}
+    />,
+  );
+
+  fireEvent.click(await screen.findByText("ウォレットを接続"));
+
+  await waitFor(() => expect(wallet.connectedWith).toBe(validConnectionString));
+  expect(await screen.findByText("Wallet connection is ready")).toBeTruthy();
+  expect(queryConnectionTextarea()).toBeNull();
+  expect(screen.queryByText(fakeSecret)).toBeNull();
+});
+
 test("connects a wallet and clears the submitted connection secret from the UI", async () => {
   const wallet = new FakeWalletConnectionClient();
   render(<InvoiceGenerator walletConnector={wallet} />);
@@ -104,6 +137,19 @@ test("renders mobile-first split inputs", async () => {
   expect(screen.getByText("人数")).toBeTruthy();
   expect(screen.getAllByPlaceholderText("メモ").length).toBeGreaterThan(0);
   expect(screen.getByText("DISCONNECT")).toBeTruthy();
+});
+
+test("keeps manual NWC paste behind a fallback control", async () => {
+  const wallet = new FakeWalletConnectionClient();
+  render(<InvoiceGenerator walletConnector={wallet} />);
+
+  expect(await screen.findByText("ウォレットを接続")).toBeTruthy();
+  expect(queryConnectionTextarea()).toBeNull();
+
+  fireEvent.click(screen.getByText("NWC文字列で接続"));
+
+  expect(connectionTextarea()).toBeTruthy();
+  expect(screen.getByText("CONNECT")).toBeTruthy();
 });
 
 test("reports invalid wallet connection strings without retaining the submitted value", async () => {
@@ -180,6 +226,7 @@ test("disconnect clears wallet state and disables split creation", async () => {
 });
 
 async function connectWallet(connectionString: string): Promise<void> {
+  fireEvent.click(await screen.findByText("NWC文字列で接続"));
   fireEvent.change(connectionTextarea(), {
     target: { value: connectionString },
   });

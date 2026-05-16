@@ -9,6 +9,7 @@
     "npm:@capacitor/haptics@5.0.6": "5.0.6_@capacitor+core@5.4.2",
     "npm:@capacitor/keyboard@5.0.6": "5.0.6_@capacitor+core@5.4.2",
     "npm:@capacitor/status-bar@5.0.6": "5.0.6_@capacitor+core@5.4.2",
+    "npm:@getalby/bitcoin-connect@^3.12.2": "3.12.2_@types+react@18.3.28_react@18.3.1_typescript@5.9.3",
     "npm:@ionic/react-router@7": "7.8.6_react@18.3.1_react-dom@18.3.1__react@18.3.1_react-router@5.3.4__react@18.3.1_react-router-dom@5.3.4__react@18.3.1",
     "npm:@ionic/react@7": "7.8.6_react@18.3.1_react-dom@18.3.1__react@18.3.1",
     "npm:@testing-library/jest-dom@^5.16.5": "5.17.0",
@@ -25,7 +26,6 @@
     "npm:ionicons@7": "7.4.0",
     "npm:jsdom@^22.1.0": "22.1.0",
     "npm:nostr-tools@2.16.2": "2.16.2_typescript@5.9.3",
-    "npm:nostr-tools@^2.16.2": "2.16.2_typescript@5.9.3",
     "npm:postcss@^8.4.31": "8.5.14",
     "npm:qrcode.react@^3.1.0": "3.2.0_react@18.3.1",
     "npm:react-dom@^18.2.0": "18.3.1_react@18.3.1",
@@ -1029,6 +1029,26 @@
     "@eslint/js@8.57.1": {
       "integrity": "sha512-d9zaMRSTIKDLhctzH12MtXvJKSSUhaHcjV+2Z+GK+EEY7XKpP5yR4x+N3TAcHTcu963nIr+TMcCb4DBCYX1z6Q=="
     },
+    "@getalby/bitcoin-connect@3.12.2_@types+react@18.3.28_react@18.3.1_typescript@5.9.3": {
+      "integrity": "sha512-qtKKSE7gEVmCyc1AJR5cD9dxD83PvQotG7U7SvERXz1z9fEuKzKpXc16olVZhLiJjTLeQo1P2Zqv0d6lISKhBQ==",
+      "dependencies": [
+        "@getalby/lightning-tools",
+        "@getalby/sdk",
+        "@lightninglabs/lnc-web",
+        "qrcode-generator",
+        "zustand"
+      ]
+    },
+    "@getalby/lightning-tools@6.1.0": {
+      "integrity": "sha512-rGurar9X4Gm+9xwoNYS8s9YLK7ZYqvbqv4KbHLYV0LEeB0HxZHRgmxblGqg+fYfp6iiYHx+edIgUpt9rS3VwFw=="
+    },
+    "@getalby/sdk@6.0.2_typescript@5.9.3": {
+      "integrity": "sha512-Q7fKMlHXFdbT8w1O+khOVhg4FnPwdB1ltvmeoYI6Ec6RKc4qUVwx6vEM6xl8NumOboUMmA1YO5WDxm6WLTJ52w==",
+      "dependencies": [
+        "@getalby/lightning-tools",
+        "nostr-tools@2.23.3_typescript@5.9.3"
+      ]
+    },
     "@humanwhocodes/config-array@0.13.0": {
       "integrity": "sha512-DZLEEqFWQFiyK6h5YIeynKx7JlvCYWL0cImfSRXZ9l4Sg2efkFGTuFf6vzXjK1cq6IYkU+Eg/JizXw+TD2vRNw==",
       "dependencies": [
@@ -1241,8 +1261,21 @@
         "@jridgewell/sourcemap-codec"
       ]
     },
+    "@lightninglabs/lnc-core@0.3.4-alpha": {
+      "integrity": "sha512-S/L1gNHqF8jW3DVXBvzVX8zyJO4O2FRfKFNE5U3rtRBaczX+fSVpK3yz/CdgBqhBzyZ+1un6nVZE/tftnfjQwA=="
+    },
+    "@lightninglabs/lnc-web@0.3.4-alpha": {
+      "integrity": "sha512-ARTsCm71ewJ3sWaW4DEauEXr9wG4qPpCMWGGVjbjvvo5Jvd3svLO610JLYoV7LvQhyW6dKLlAooLxYws2y9FLA==",
+      "dependencies": [
+        "@lightninglabs/lnc-core",
+        "crypto-js"
+      ]
+    },
     "@noble/ciphers@0.5.3": {
       "integrity": "sha512-B0+6IIHiqEs3BPMT0hcRmHvEj2QHOLu+uwt+tqDDeVd0oyVzh7BPrDcPjRnV1PV/5LaknXJJQvOuRGR0zQJz+w=="
+    },
+    "@noble/ciphers@2.1.1": {
+      "integrity": "sha512-bysYuiVfhxNJuldNXlFEitTVdNnYUc+XNJZd7Qm2a5j1vZHgY+fazadNFWFaMK/2vye0JVlxV3gHmC0WDfAOQw=="
     },
     "@noble/curves@1.1.0": {
       "integrity": "sha512-091oBExgENk/kGj3AZmtBDMpxQPDtxQABR2B9lb1JbVTs6ytdzZNwvhxQ4MWasRNEzlbEH8jCWFCwhF/Obj5AA==",
@@ -1256,11 +1289,20 @@
         "@noble/hashes@1.3.2"
       ]
     },
+    "@noble/curves@2.0.1": {
+      "integrity": "sha512-vs1Az2OOTBiP4q0pwjW5aF0xp9n4MxVrmkFBxc6EKZc6ddYx5gaZiAsZoq0uRRXWbi3AT/sBqn05eRPtn1JCPw==",
+      "dependencies": [
+        "@noble/hashes@2.0.1"
+      ]
+    },
     "@noble/hashes@1.3.1": {
       "integrity": "sha512-EbqwksQwz9xDRGfDST86whPBgM65E0OH/pCgqW0GBVzO22bNE+NuIbeTb714+IfSjU3aRk47EUvXIb5bTsenKA=="
     },
     "@noble/hashes@1.3.2": {
       "integrity": "sha512-MVC8EAQp7MvEcm30KWENFjgR+Mkmf+D189XJTkFIlwohU5hcBbn1ZkKq7KVTi2Hme3PMGF390DaL52beVrIihQ=="
+    },
+    "@noble/hashes@2.0.1": {
+      "integrity": "sha512-XlOlEbQcE9fmuXxrVTXCTlG2nlRXa9Rj3rr5Ue/+tX+nmkgbX720YHh0VR3hBF9xDvwnb8D2shVGOwNx+ulArw=="
     },
     "@nodelib/fs.scandir@2.1.5": {
       "integrity": "sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==",
@@ -1325,19 +1367,37 @@
     "@scure/base@1.1.1": {
       "integrity": "sha512-ZxOhsSyxYwLJj3pLZCefNitxsj093tb2vq90mp2txoYeBqbcjDjqFhyM8eUjq/uFm6zJ+mUuqxlS2FkuSY1MTA=="
     },
+    "@scure/base@2.0.0": {
+      "integrity": "sha512-3E1kpuZginKkek01ovG8krQ0Z44E3DHPjc5S2rjJw9lZn3KSQOs8S7wqikF/AH7iRanHypj85uGyxk0XAyC37w=="
+    },
     "@scure/bip32@1.3.1": {
       "integrity": "sha512-osvveYtyzdEVbt3OfwwXFr4P2iVBL5u1Q3q4ONBfDY/UpOuXmOlbgwc1xECEboY8wIays8Yt6onaWMUdUbfl0A==",
       "dependencies": [
         "@noble/curves@1.1.0",
         "@noble/hashes@1.3.2",
-        "@scure/base"
+        "@scure/base@1.1.1"
+      ]
+    },
+    "@scure/bip32@2.0.1": {
+      "integrity": "sha512-4Md1NI5BzoVP+bhyJaY3K6yMesEFzNS1sE/cP+9nuvE7p/b0kx9XbpDHHFl8dHtufcbdHRUUQdRqLIPHN/s7yA==",
+      "dependencies": [
+        "@noble/curves@2.0.1",
+        "@noble/hashes@2.0.1",
+        "@scure/base@2.0.0"
       ]
     },
     "@scure/bip39@1.2.1": {
       "integrity": "sha512-Z3/Fsz1yr904dduJD0NpiyRHhRYHdcnyh73FZWiV+/qhWi83wNJ3NWolYqCEN+ZWsUz2TWwajJggcRE9r1zUYg==",
       "dependencies": [
         "@noble/hashes@1.3.2",
-        "@scure/base"
+        "@scure/base@1.1.1"
+      ]
+    },
+    "@scure/bip39@2.0.1": {
+      "integrity": "sha512-PsxdFj/d2AcJcZDX1FXN3dDgitDDTmwf78rKZq1a6c1P1Nan1X/Sxc7667zU3U+AN60g7SxxP0YCVw2H/hBycg==",
+      "dependencies": [
+        "@noble/hashes@2.0.1",
+        "@scure/base@2.0.0"
       ]
     },
     "@sinclair/typebox@0.27.10": {
@@ -1993,6 +2053,9 @@
         "shebang-command",
         "which"
       ]
+    },
+    "crypto-js@4.2.0": {
+      "integrity": "sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q=="
     },
     "css.escape@1.5.1": {
       "integrity": "sha512-YUifsXXuknHlUsmlgyY0PKzgPOr7/FjCePfHNt0jxm83wHZi44VDMQ7/fGNkjY3/jV1MC+1CmZbaHzugyeRtpg=="
@@ -3322,12 +3385,28 @@
     "nostr-tools@2.16.2_typescript@5.9.3": {
       "integrity": "sha512-ZxH9EbSt5ypURZj2TGNJxZd0Omb5ag5KZSu8IyJMCdLyg2KKz+2GA0sP/cSawCQEkyviIN4eRT4G2gB/t9lMRw==",
       "dependencies": [
-        "@noble/ciphers",
+        "@noble/ciphers@0.5.3",
         "@noble/curves@1.2.0",
         "@noble/hashes@1.3.1",
-        "@scure/base",
-        "@scure/bip32",
-        "@scure/bip39",
+        "@scure/base@1.1.1",
+        "@scure/bip32@1.3.1",
+        "@scure/bip39@1.2.1",
+        "nostr-wasm",
+        "typescript"
+      ],
+      "optionalPeers": [
+        "typescript"
+      ]
+    },
+    "nostr-tools@2.23.3_typescript@5.9.3": {
+      "integrity": "sha512-AALyt9k8xPdF4UV2mlLJ2mgCn4kpTB0DZ8t2r6wjdUh6anfx2cTVBsHUlo9U0EY/cKC5wcNyiMAmRJV5OVEalA==",
+      "dependencies": [
+        "@noble/ciphers@2.1.1",
+        "@noble/curves@2.0.1",
+        "@noble/hashes@2.0.1",
+        "@scure/base@2.0.0",
+        "@scure/bip32@2.0.1",
+        "@scure/bip39@2.0.1",
         "nostr-wasm",
         "typescript"
       ],
@@ -3636,6 +3715,9 @@
     },
     "punycode@2.3.1": {
       "integrity": "sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg=="
+    },
+    "qrcode-generator@1.4.4": {
+      "integrity": "sha512-HM7yY8O2ilqhmULxGMpcHSF1EhJJ9yBj8gvDEuZ6M+KGJ0YY2hKpnXvRD+hZPLrDVck3ExIGhmPtSdcjC+guuw=="
     },
     "qrcode.react@3.2.0_react@18.3.1": {
       "integrity": "sha512-YietHHltOHA4+l5na1srdaMx4sVSOjV9tamHs+mwiLWAMr6QVACRUw1Neax5CptFILcNoITctJY0Ipyn5enQ8g==",
@@ -4397,6 +4479,12 @@
         "requires-port"
       ]
     },
+    "use-sync-external-store@1.6.0_react@18.3.1": {
+      "integrity": "sha512-Pp6GSwGP/NrPIrxVFAIkOQeyw8lFenOHijQWkUTrDvrF4ALqylP2C/KCkeS9dpUM3KvYRQhna5vt7IL95+ZQ9w==",
+      "dependencies": [
+        "react"
+      ]
+    },
     "util-deprecate@1.0.2": {
       "integrity": "sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw=="
     },
@@ -4611,6 +4699,18 @@
     },
     "yocto-queue@1.2.2": {
       "integrity": "sha512-4LCcse/U2MHZ63HAJVE+v71o7yOdIe4cZ70Wpf8D/IyjDKYQLV5GD46B+hSTjJsvV5PztjvHoU580EftxjDZFQ=="
+    },
+    "zustand@4.5.7_@types+react@18.3.28_react@18.3.1": {
+      "integrity": "sha512-CHOUy7mu3lbD6o6LJLfllpjkzhHXSBlX8B9+qPddUsIfeF5S/UZ5q0kmCsnRqT1UHFQZchNFDDzMbQsuesHWlw==",
+      "dependencies": [
+        "@types/react",
+        "react",
+        "use-sync-external-store"
+      ],
+      "optionalPeers": [
+        "@types/react",
+        "react"
+      ]
     }
   },
   "workspace": {
@@ -4625,6 +4725,7 @@
         "npm:@capacitor/haptics@5.0.6",
         "npm:@capacitor/keyboard@5.0.6",
         "npm:@capacitor/status-bar@5.0.6",
+        "npm:@getalby/bitcoin-connect@^3.12.2",
         "npm:@ionic/react-router@7",
         "npm:@ionic/react@7",
         "npm:@testing-library/jest-dom@^5.16.5",
@@ -4640,7 +4741,7 @@
         "npm:eslint@^8.35.0",
         "npm:ionicons@7",
         "npm:jsdom@^22.1.0",
-        "npm:nostr-tools@^2.16.2",
+        "npm:nostr-tools@2.16.2",
         "npm:postcss@^8.4.31",
         "npm:qrcode.react@^3.1.0",
         "npm:react-dom@^18.2.0",
