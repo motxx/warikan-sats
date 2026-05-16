@@ -27,8 +27,8 @@ export const WarikanArgsInput: React.FC<Props> = ({ onInput, lang }) => {
 
   return (
     <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
-      <label className="grid gap-2 text-sm font-medium text-white">
-        <span>合計</span>
+      <label className="grid gap-2 text-sm font-semibold text-[#354036]">
+        <span>Total</span>
         <div>
           <NumberInput
             ariaLabel="Total amount"
@@ -38,8 +38,8 @@ export const WarikanArgsInput: React.FC<Props> = ({ onInput, lang }) => {
           />
         </div>
       </label>
-      <label className="grid gap-2 text-sm font-medium text-white">
-        <span>人数</span>
+      <label className="grid gap-2 text-sm font-semibold text-[#354036]">
+        <span>People</span>
         <div>
           <NumberInput
             ariaLabel="Participant count"

@@ -5,12 +5,17 @@ type Props = {
   disabled?: boolean;
   label?: string;
   onGenerate: () => void;
+  variant?: "primary" | "secondary";
 };
 
 export const GenerateInvoiceButton: React.FC<Props> = (props: Props) => {
   return (
-    <PrimaryButton onClick={props.onGenerate} disabled={props.disabled}>
-      {props.label ?? "START SPLIT"}
+    <PrimaryButton
+      onClick={props.onGenerate}
+      disabled={props.disabled}
+      variant={props.variant}
+    >
+      {props.label ?? "Create split invoices"}
     </PrimaryButton>
   );
 };

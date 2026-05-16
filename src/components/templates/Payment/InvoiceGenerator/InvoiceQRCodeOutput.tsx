@@ -7,7 +7,7 @@ type Props = {
 
 export const InvoiceQRCodeOutput: React.FC<Props> = ({ invoiceData }) => {
   return (
-    <div>
+    <div className="rounded-[20px] border border-[#d7e1d4] bg-white p-4">
       <InvoiceQRCode data={invoiceData} />
     </div>
   );

@@ -3,12 +3,12 @@ describe("mobile split flow", () => {
     cy.viewport("iphone-6");
     cy.visit("/");
 
-    cy.contains("h1", "割り勘回収").should("be.visible");
-    cy.contains("ion-button", "ウォレットを接続").should("be.visible");
+    cy.contains("h1", "Split in sats").should("be.visible");
+    cy.contains("ion-button", "Connect wallet").should("be.visible");
     cy.contains("NWC文字列で接続").should("not.exist");
     cy.contains("ion-button", "CONNECT").should("not.exist");
     cy.contains("ion-button", "START SPLIT").should("not.exist");
-    cy.contains(/^Wallet$/).should("not.exist");
+    cy.contains("ion-button", "Create split invoices").should("not.exist");
     cy.contains(/^Contact$/).should("not.exist");
     cy.get('textarea[aria-label="Nostr Wallet Connect connection string"]')
       .should("not.exist");

@@ -9,15 +9,18 @@ type Props = {
 
 export const ResultBalance: React.FC<Props> = ({ balance, lang }) => {
   return (
-    <div className="flex flex-col place-items-center gap-y-2">
-      <div className="text-3xl text-white font-extrabold">
+    <div className="flex flex-col place-items-center gap-y-2 rounded-2xl border border-[#d7e1d4] bg-[#eef6ea] px-4 py-5 text-center">
+      <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#a05a00]">
+        Each person pays
+      </div>
+      <div className="text-4xl font-extrabold leading-none text-[#1e231f]">
+        <Amount currencyUnit="sats" amount={balance} />
+      </div>
+      <div className="text-sm font-medium text-[#5c675d]">
         <Amount
           currencyUnit={lang === "ja" ? "jpy" : "usd"}
           amount={fromSats(balance, lang === "ja" ? "jpy" : "usd")}
         />
-      </div>
-      <div className="text-xs">
-        <Amount currencyUnit="sats" amount={balance} />
       </div>
     </div>
   );

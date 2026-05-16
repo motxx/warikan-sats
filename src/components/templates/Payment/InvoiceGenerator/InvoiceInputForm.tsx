@@ -23,7 +23,15 @@ export const InvoiceInputForm: React.FC<Props> = ({ onChange }) => {
   }, [resultBalance, participantCount, notes]);
 
   return (
-    <div className="flex h-full w-full flex-col items-stretch gap-5">
+    <div className="flex h-full w-full flex-col items-stretch gap-4 rounded-[20px] border border-[#d7e1d4] bg-white p-4">
+      <div>
+        <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#a05a00]">
+          Split details
+        </div>
+        <div className="mt-1 text-sm text-[#5c675d]">
+          Enter the bill total and number of people.
+        </div>
+      </div>
       <WarikanArgsInput
         onInput={(input) => {
           setResultBalance(input.amount);
@@ -35,7 +43,10 @@ export const InvoiceInputForm: React.FC<Props> = ({ onChange }) => {
         <ResultBalance balance={resultBalance} lang="ja" />
       </div>
       <div className="w-full">
-        <AddNotes onInput={setNotes} />
+        <label className="grid gap-2 text-sm font-semibold text-[#354036]">
+          <span>Note</span>
+          <AddNotes onInput={setNotes} />
+        </label>
       </div>
     </div>
   );

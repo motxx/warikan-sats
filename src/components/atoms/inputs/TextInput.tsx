@@ -19,7 +19,7 @@ export const TextInput: React.FC<Props> = ({
 
   return (
     <IonInput
-      className={`h-12 w-full border-b border-gray-300 text-base font-medium ${textAlignClass}`}
+      className={`h-12 w-full rounded-xl border border-[#cfdacb] bg-white px-3 text-base font-medium text-[#1e231f] ${textAlignClass}`}
       onIonInput={(e) => onInput(e.target.value?.toString() ?? "")}
       placeholder={placeholder}
     />

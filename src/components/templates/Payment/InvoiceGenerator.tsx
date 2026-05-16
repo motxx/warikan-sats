@@ -86,6 +86,19 @@ export const InvoiceGenerator: React.FC<Props> = ({
 
   const activeInvoice = sequence ? getActiveSplitInvoice(sequence) : null;
   const isWalletReady = walletStatus === "ready";
+  const walletStatusLabel = isWalletReady
+    ? "Ready"
+    : walletStatus === "checking"
+    ? "Checking"
+    : "Needs wallet";
+  const progressPercent = activeInvoice && sequence
+    ? Math.round(
+      (activeInvoice.participantIndex / sequence.participantCount) *
+        100,
+    )
+    : sequence?.status === "completed"
+    ? 100
+    : 0;
 
   const connectWithBitcoinConnect = async () => {
     setSequence(null);
@@ -152,20 +165,38 @@ export const InvoiceGenerator: React.FC<Props> = ({
 
   return (
     <div className="flex w-full flex-col items-stretch gap-5 pb-4">
-      <header className="w-full text-white">
-        <h1 className="m-0 text-[1.75rem] font-bold leading-tight">
-          割り勘回収
+      <header className="w-full">
+        <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#a05a00]">
+          Warikan Sats
+        </div>
+        <h1 className="m-0 mt-2 text-[2rem] font-extrabold leading-tight text-[#1e231f]">
+          Split in sats
         </h1>
-        <p className="mt-2 text-[0.95rem] leading-6 text-white/75">
-          受け取り用ウォレットをつなぎ、参加者ごとの請求を順番に確認します。
+        <p className="mt-2 text-[0.98rem] leading-6 text-[#5c675d]">
+          Create one Lightning invoice per person and collect payments in order.
         </p>
       </header>
-      <section className="grid w-full grid-cols-1 gap-3 text-white">
-        <div className="flex items-center justify-between gap-3">
+      <section className="grid w-full grid-cols-1 gap-3 rounded-[20px] border border-[#d7e1d4] bg-white p-4">
+        <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <div className="text-sm font-semibold">Nostr Wallet Connect</div>
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="text-sm font-bold text-[#1e231f]">
+                Wallet
+              </div>
+              <span
+                className={`rounded-full px-2 py-1 text-xs font-bold ${
+                  isWalletReady
+                    ? "bg-[#dff5df] text-[#166534]"
+                    : walletStatus === "checking"
+                    ? "bg-[#eef2e8] text-[#52612f]"
+                    : "bg-[#f8d7ce] text-[#9a3412]"
+                }`}
+              >
+                {walletStatusLabel}
+              </span>
+            </div>
             <div
-              className="mt-1 min-h-[1.25rem] text-sm leading-5"
+              className="mt-2 min-h-[1.25rem] text-sm leading-5 text-[#5c675d]"
               role="status"
             >
               {walletMessage}
@@ -173,23 +204,22 @@ export const InvoiceGenerator: React.FC<Props> = ({
           </div>
           {isWalletReady
             ? (
-              <div className="w-32 shrink-0">
+              <div className="w-28 shrink-0">
                 <GenerateInvoiceButton
-                  label="DISCONNECT"
+                  label="Disconnect"
                   onGenerate={disconnectWallet}
+                  variant="secondary"
                 />
               </div>
             )
             : null}
         </div>
         {isWalletReady ? null : (
-          <>
-            <GenerateInvoiceButton
-              label="ウォレットを接続"
-              disabled={walletStatus === "checking"}
-              onGenerate={connectWithBitcoinConnect}
-            />
-          </>
+          <GenerateInvoiceButton
+            label="Connect wallet"
+            disabled={walletStatus === "checking"}
+            onGenerate={connectWithBitcoinConnect}
+          />
         )}
       </section>
       {isWalletReady
@@ -208,11 +238,32 @@ export const InvoiceGenerator: React.FC<Props> = ({
       <div className="grid w-full grid-cols-1 place-items-center gap-3">
         {sequence && activeInvoice
           ? (
-            <div className="text-center text-sm font-semibold text-white">
-              Participant {activeInvoice.participantIndex} of{" "}
-              {sequence.participantCount}
-              <div className="text-xs font-normal">
+            <div className="w-full rounded-[20px] border border-[#d7e1d4] bg-white p-4 text-center">
+              <div className="flex items-center justify-between gap-3 text-left">
+                <div>
+                  <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#a05a00]">
+                    Collecting payment
+                  </div>
+                  <div className="mt-1 text-lg font-extrabold text-[#1e231f]">
+                    Person {activeInvoice.participantIndex} of{" "}
+                    {sequence.participantCount}
+                  </div>
+                </div>
+                <div className="rounded-full bg-[#1e231f] px-3 py-1 text-xs font-bold text-white">
+                  {activeInvoice.participantIndex}/{sequence.participantCount}
+                </div>
+              </div>
+              <div className="mt-4 h-2 overflow-hidden rounded-full bg-[#d7e1d4]">
+                <div
+                  className="h-full rounded-full bg-[#0f766e]"
+                  style={{ width: `${progressPercent}%` }}
+                />
+              </div>
+              <div className="mt-4 text-3xl font-extrabold leading-none text-[#1e231f]">
                 {activeInvoice.amountMsats / 1_000} sats
+              </div>
+              <div className="mt-1 text-sm text-[#5c675d]">
+                Show this invoice to the person paying now.
               </div>
             </div>
           )
@@ -220,14 +271,14 @@ export const InvoiceGenerator: React.FC<Props> = ({
         {activeInvoice
           ? <InvoiceQRCodeOutput invoiceData={activeInvoice.invoice} />
           : null}
-        <div className="min-h-[1.5rem] text-center text-sm leading-5 text-white">
+        <div className="min-h-[1.5rem] text-center text-sm font-medium leading-5 text-[#354036]">
           {sequence?.status === "completed" ? "All paid" : status}
         </div>
         {activeInvoice && sequence?.status !== "completed"
           ? (
             <div className="w-full">
               <GenerateInvoiceButton
-                label="CHECK PAYMENT"
+                label="Check payment"
                 disabled={sequence?.status === "checking"}
                 onGenerate={checkPayment}
               />
@@ -237,7 +288,7 @@ export const InvoiceGenerator: React.FC<Props> = ({
         {sequence?.status === "failed"
           ? (
             <div className="w-full">
-              <GenerateInvoiceButton label="RETRY" onGenerate={retry} />
+              <GenerateInvoiceButton label="Retry invoice" onGenerate={retry} />
             </div>
           )
           : null}

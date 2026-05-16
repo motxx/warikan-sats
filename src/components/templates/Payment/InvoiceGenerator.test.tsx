@@ -99,7 +99,7 @@ test("connects through Bitcoin Connect as the primary wallet flow", async () => 
     />,
   );
 
-  fireEvent.click(await screen.findByText("ウォレットを接続"));
+  fireEvent.click(await screen.findByText("Connect wallet"));
 
   await waitFor(() => expect(wallet.connectedWith).toBe(validConnectionString));
   expect(await screen.findByText("Wallet connection is ready")).toBeTruthy();
@@ -111,7 +111,7 @@ test("does not render an invoice QR before a split is created", async () => {
   const wallet = new FakeWalletConnectionClient();
   render(<InvoiceGenerator walletConnector={wallet} />);
 
-  expect(await screen.findByText("割り勘回収")).toBeTruthy();
+  expect(await screen.findByText("Split in sats")).toBeTruthy();
   expect(document.querySelector("canvas")).toBeNull();
 });
 
@@ -121,17 +121,20 @@ test("renders mobile-first split inputs", async () => {
   render(<InvoiceGenerator walletConnector={wallet} />);
 
   expect(await screen.findByText("Wallet connection is ready")).toBeTruthy();
-  expect(screen.getByText("合計")).toBeTruthy();
-  expect(screen.getByText("人数")).toBeTruthy();
-  expect(screen.getAllByPlaceholderText("メモ").length).toBeGreaterThan(0);
-  expect(screen.getByText("DISCONNECT")).toBeTruthy();
+  expect(screen.getByText("Total")).toBeTruthy();
+  expect(screen.getByText("People")).toBeTruthy();
+  expect(screen.getAllByPlaceholderText("Optional note").length)
+    .toBeGreaterThan(
+      0,
+    );
+  expect(screen.getByText("Disconnect")).toBeTruthy();
 });
 
 test("does not expose an app-level manual NWC paste field", async () => {
   const wallet = new FakeWalletConnectionClient();
   render(<InvoiceGenerator walletConnector={wallet} />);
 
-  expect(await screen.findByText("ウォレットを接続")).toBeTruthy();
+  expect(await screen.findByText("Connect wallet")).toBeTruthy();
   expect(screen.queryByText("NWC文字列で接続")).toBeNull();
   expect(screen.queryByText("CONNECT")).toBeNull();
   expect(queryConnectionTextarea()).toBeNull();
@@ -148,7 +151,7 @@ test("reports Bitcoin Connect failures without exposing connection input", async
     />,
   );
 
-  fireEvent.click(await screen.findByText("ウォレットを接続"));
+  fireEvent.click(await screen.findByText("Connect wallet"));
 
   expect(await screen.findByText("wallet cancelled")).toBeTruthy();
   expect(queryConnectionTextarea()).toBeNull();
@@ -165,7 +168,7 @@ test("reports wallets missing invoice capabilities", async () => {
     />,
   );
 
-  fireEvent.click(await screen.findByText("ウォレットを接続"));
+  fireEvent.click(await screen.findByText("Connect wallet"));
 
   expect(
     await screen.findByText(
@@ -187,7 +190,7 @@ test("creates split invoices through the connected wallet", async () => {
   await connectWallet();
   setIonInput("Total amount", "3000");
   setIonInput("Participant count", "3");
-  fireEvent.click(screen.getByText("START SPLIT"));
+  fireEvent.click(screen.getByText("Create split invoices"));
 
   await waitFor(() => expect(wallet.created).toHaveLength(3));
   expect(wallet.created.map((input) => input.amountMsats)).toEqual([
@@ -195,7 +198,7 @@ test("creates split invoices through the connected wallet", async () => {
     19_427_000,
     19_427_000,
   ]);
-  expect(await screen.findByText("Participant 1 of 3")).toBeTruthy();
+  expect(await screen.findByText("Person 1 of 3")).toBeTruthy();
 });
 
 test("checks settlement through the connected wallet", async () => {
@@ -211,10 +214,10 @@ test("checks settlement through the connected wallet", async () => {
 
   await connectWallet();
   setIonInput("Total amount", "1000");
-  fireEvent.click(screen.getByText("START SPLIT"));
-  await screen.findByText("Participant 1 of 1");
+  fireEvent.click(screen.getByText("Create split invoices"));
+  await screen.findByText("Person 1 of 1");
 
-  fireEvent.click(screen.getByText("CHECK PAYMENT"));
+  fireEvent.click(screen.getByText("Check payment"));
 
   await waitFor(() =>
     expect(wallet.lookups).toEqual([{ paymentHash: "payment-hash-1" }])
@@ -233,16 +236,16 @@ test("disconnect clears wallet state and disables split creation", async () => {
   );
 
   await connectWallet();
-  fireEvent.click(screen.getByText("DISCONNECT"));
+  fireEvent.click(screen.getByText("Disconnect"));
 
   await waitFor(() => expect(wallet.disconnected).toBe(true));
   await waitFor(() => expect(bitcoinConnect.disconnected).toBe(true));
   expect(await screen.findByText("Wallet connection is missing")).toBeTruthy();
-  expect(screen.queryByText("START SPLIT")).toBeNull();
+  expect(screen.queryByText("Create split invoices")).toBeNull();
 });
 
 async function connectWallet(): Promise<void> {
-  fireEvent.click(await screen.findByText("ウォレットを接続"));
+  fireEvent.click(await screen.findByText("Connect wallet"));
   await waitFor(() =>
     expect(screen.queryByDisplayValue(validConnectionString)).toBeNull()
   );
