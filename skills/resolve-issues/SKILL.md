@@ -23,9 +23,9 @@ only after the work is implemented and verified.
 5. Implement the smallest coherent change that satisfies the issue.
 6. Add or update tests when behavior changes.
 7. Run focused checks, then at minimum:
-   - `yarn lint:paths`
-   - `yarn test:scripts` when scripts change
-   - `yarn lint` when TypeScript or JSX changes
+   - `deno task lint:paths`
+   - `deno task test:scripts` when scripts change
+   - `deno task lint:strict` when TypeScript or JSX changes
 8. Move the issue from `docs/issues/pending/` to `docs/issues/closed/` only
    after implementation and verification.
 9. Add `Completed: YYYY-MM-DD` and a concise `## Resolution` section.
@@ -46,7 +46,7 @@ Implemented by updating:
 
 Verified with:
 
-- `yarn lint:paths`
+- `deno task lint:paths`
 
 Harness update:
 

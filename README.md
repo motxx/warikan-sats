@@ -8,8 +8,8 @@ With this "warikan" app, you can equally split the Fiat amount and issue invoice
 ## Development
 
 ```sh
-yarn lint:strict
-yarn test:all
+deno task lint:strict
+deno task test:all
 ```
 
 Issues are tracked in `docs/issues`. See `docs/issues/README.md` for the

@@ -29,7 +29,7 @@ Numbers are never reused, even when an issue is closed or abandoned.
    prerequisite under `Depends on`.
 8. If later work should wait for this issue, record those issue numbers under
    `Blocks`.
-9. Run `yarn lint:paths` before finishing so local filesystem paths are not
+9. Run `deno task lint:paths` before finishing so local filesystem paths are not
    captured in issue text.
 
 Use this structure:

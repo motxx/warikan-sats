@@ -1,0 +1,32 @@
+{
+  "nodeModulesDir": "auto",
+  "tasks": {
+    "dev": "deno run -A npm:vite@^4.3.9",
+    "preview": "deno run -A npm:vite@^4.3.9 preview",
+    "check": "deno run -A npm:typescript@^5.1.6/tsc --noEmit",
+    "build": "deno task check && deno run -A npm:vite@^4.3.9 build && cp dist/index.html dist/404.html",
+    "lint:paths": "deno run --allow-read scripts/check-no-local-paths.ts",
+    "lint:types": "deno run --allow-read --allow-run scripts/lint-types.ts",
+    "lint:no-dynamic-import": "deno run --allow-read --allow-run scripts/lint-no-dynamic-import.ts",
+    "lint:source": "deno lint --rules-exclude=no-sloppy-imports,no-window,ban-types,no-empty-pattern,no-unused-vars src scripts",
+    "lint:strict": "deno task lint:paths && deno task lint:types && deno task lint:no-dynamic-import && deno task lint:source",
+    "test:unit": "deno run -A npm:vitest@^0.32.2 run src --environment jsdom --globals",
+    "test:scripts": "deno test --allow-read --allow-run scripts/*.test.ts",
+    "test:all": "./scripts/test-all.sh --local",
+    "test:all:docker": "./scripts/test-all.sh --docker",
+    "ci": "./scripts/test-all.sh --local",
+    "ci:docker": "./scripts/test-all.sh --docker",
+    "setup:hooks": "git config core.hooksPath scripts/git-hooks"
+  },
+  "imports": {
+    "@std/assert": "jsr:@std/assert@^1.0.14"
+  },
+  "fmt": {
+    "exclude": [
+      "dist",
+      "docs",
+      "node_modules",
+      "*.md"
+    ]
+  }
+}

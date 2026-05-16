@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Unified quality harness for warikan-sats.
+# Unified Deno quality harness for warikan-sats.
 
 set -euo pipefail
 
@@ -20,17 +20,6 @@ step() { printf '\n%s=== %s ===%s\n' "$BOLD" "$1" "$NC"; }
 pass() { printf '  %sPASS%s %s\n' "$GREEN" "$NC" "$1"; }
 fail() { printf '  %sFAIL%s %s\n' "$RED" "$NC" "$1"; FAILED=1; }
 
-package_script() {
-  local script="$1"
-  if command -v yarn >/dev/null 2>&1; then
-    yarn run "$script"
-  elif command -v corepack >/dev/null 2>&1; then
-    corepack yarn run "$script"
-  else
-    npm run "$script"
-  fi
-}
-
 run_check() {
   local name="$1"; shift
   if "$@" 2>&1; then
@@ -42,16 +31,16 @@ run_check() {
 
 run_local() {
   step "Local quality gate"
-  run_check "repository lints" package_script lint:strict
-  run_check "script tests" package_script test:scripts
-  run_check "type check" package_script check
-  run_check "unit tests" package_script test.unit
-  run_check "production build" package_script build
+  run_check "repository lints" deno task lint:strict
+  run_check "script tests" deno task test:scripts
+  run_check "type check" deno task check
+  run_check "unit tests" deno task test:unit
+  run_check "production build" deno task build
 }
 
 run_docker() {
   step "Docker quality gate"
-  echo "Docker-backed browser E2E is not implemented yet; see docs/issues/pending/0001-add-browser-e2e-harness.md"
+  echo "Docker-backed NWC regtest E2E is not implemented yet; see docs/issues/pending/0007-add-nwc-regtest-warikan-e2e.md"
 }
 
 case "$MODE" in

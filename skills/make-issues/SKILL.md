@@ -23,7 +23,7 @@ Create one or more file-based issues in `docs/issues/pending/` and update
    - Keep each issue concise.
    - If the request is too vague, inspect local context before asking.
 5. Write each issue as `docs/issues/pending/NNNN-short-title.md`.
-6. Run `yarn lint:paths`.
+6. Run `deno task lint:paths`.
 7. Report the created paths and numbers.
 
 ## Issue Format
