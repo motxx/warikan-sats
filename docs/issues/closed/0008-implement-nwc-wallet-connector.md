@@ -44,3 +44,36 @@ preserving the client-plus-user-wallet deployment model.
   invoice creation failures, and settlement polling.
 - Update `docs/review-harness.md` with where NWC connector regressions should
   be routed.
+
+Completed: 2026-05-16
+
+## Resolution
+
+Implemented by updating:
+
+- `src/services/nwc.ts`
+- `tests/unit/nwc_connector.test.ts`
+- `docs/review-harness.md`
+
+Verified with:
+
+- `deno task lint:strict`
+- `deno task test:unit`
+- `deno task check`
+
+Harness update:
+
+- Added focused NWC connector unit tests for parsing, invalid connection
+  strings, missing capabilities, relay and authorization failures, invoice
+  creation, invoice creation failures, settlement polling, and optional
+  `get_balance` support.
+
+Review residuals:
+
+- Mainnet relay transport, NIP-47 event encryption, and real wallet relay
+  connectivity remain in `0011-connect-nwc-on-mainnet`.
+
+Follow-up:
+
+- `0005-add-sequential-split-invoice-ui` can now create per-participant
+  invoices through the connector contract.

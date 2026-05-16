@@ -25,7 +25,7 @@ test, or issue over relying on human memory.
 | Dynamic import drift | Extend `scripts/lint-no-dynamic-import.ts` and its tests. |
 | Developer-local paths in tracked text | Extend `scripts/check-no-local-paths.ts` and its tests. |
 | Browser workflow regression | Resolve or extend `docs/issues/pending/0007-add-nwc-regtest-warikan-e2e.md`. |
-| NWC wallet connector regression | Extend `docs/issues/pending/0008-implement-nwc-wallet-connector.md` and its focused tests. |
+| NWC wallet connector regression | Extend `src/services/nwc.ts` and `tests/unit/nwc_connector.test.ts`. |
 | NWC regtest wallet environment drift | Extend `scripts/nwc-regtest.ts`, `tests/integration/nwc_regtest_environment.test.ts`, and `docs/nwc-regtest-environment.md`. |
 | NWC connection design drift | Update `docs/nwc-wallet-connection.md` and dependent issue acceptance criteria. |
 | Deno test harness drift | Update `tests/README.md`, `deno.json`, and `scripts/test-all.sh` together. |
