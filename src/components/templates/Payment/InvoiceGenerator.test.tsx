@@ -107,18 +107,6 @@ test("connects through Bitcoin Connect as the primary wallet flow", async () => 
   expect(screen.queryByText(fakeSecret)).toBeNull();
 });
 
-test("connects a wallet and clears the submitted connection secret from the UI", async () => {
-  const wallet = new FakeWalletConnectionClient();
-  render(<InvoiceGenerator walletConnector={wallet} />);
-
-  await connectWallet(validConnectionString);
-
-  expect(wallet.connectedWith).toBe(validConnectionString);
-  expect(await screen.findByText("Wallet connection is ready")).toBeTruthy();
-  expect(queryConnectionTextarea()).toBeNull();
-  expect(screen.queryByText(fakeSecret)).toBeNull();
-});
-
 test("does not render an invoice QR before a split is created", async () => {
   const wallet = new FakeWalletConnectionClient();
   render(<InvoiceGenerator walletConnector={wallet} />);
@@ -139,36 +127,45 @@ test("renders mobile-first split inputs", async () => {
   expect(screen.getByText("DISCONNECT")).toBeTruthy();
 });
 
-test("keeps manual NWC paste behind a fallback control", async () => {
+test("does not expose an app-level manual NWC paste field", async () => {
   const wallet = new FakeWalletConnectionClient();
   render(<InvoiceGenerator walletConnector={wallet} />);
 
   expect(await screen.findByText("ウォレットを接続")).toBeTruthy();
+  expect(screen.queryByText("NWC文字列で接続")).toBeNull();
+  expect(screen.queryByText("CONNECT")).toBeNull();
   expect(queryConnectionTextarea()).toBeNull();
-
-  fireEvent.click(screen.getByText("NWC文字列で接続"));
-
-  expect(connectionTextarea()).toBeTruthy();
-  expect(screen.getByText("CONNECT")).toBeTruthy();
 });
 
-test("reports invalid wallet connection strings without retaining the submitted value", async () => {
+test("reports Bitcoin Connect failures without exposing connection input", async () => {
   const wallet = new FakeWalletConnectionClient();
-  wallet.connectStatus = "error";
-  render(<InvoiceGenerator walletConnector={wallet} />);
+  const bitcoinConnect = new FakeBitcoinConnectClient();
+  bitcoinConnect.connect = () => Promise.reject(new Error("wallet cancelled"));
+  render(
+    <InvoiceGenerator
+      walletConnector={wallet}
+      bitcoinConnectClient={bitcoinConnect}
+    />,
+  );
 
-  await connectWallet("not a wallet connection");
+  fireEvent.click(await screen.findByText("ウォレットを接続"));
 
-  expect(await screen.findByText("Wallet connection failed")).toBeTruthy();
-  expect(connectionTextarea().value).toBe("");
+  expect(await screen.findByText("wallet cancelled")).toBeTruthy();
+  expect(queryConnectionTextarea()).toBeNull();
 });
 
 test("reports wallets missing invoice capabilities", async () => {
   const wallet = new FakeWalletConnectionClient();
+  const bitcoinConnect = new FakeBitcoinConnectClient();
   wallet.connectStatus = "unsupported";
-  render(<InvoiceGenerator walletConnector={wallet} />);
+  render(
+    <InvoiceGenerator
+      walletConnector={wallet}
+      bitcoinConnectClient={bitcoinConnect}
+    />,
+  );
 
-  await connectWallet(validConnectionString);
+  fireEvent.click(await screen.findByText("ウォレットを接続"));
 
   expect(
     await screen.findByText(
@@ -179,9 +176,15 @@ test("reports wallets missing invoice capabilities", async () => {
 
 test("creates split invoices through the connected wallet", async () => {
   const wallet = new FakeWalletConnectionClient();
-  render(<InvoiceGenerator walletConnector={wallet} />);
+  const bitcoinConnect = new FakeBitcoinConnectClient();
+  render(
+    <InvoiceGenerator
+      walletConnector={wallet}
+      bitcoinConnectClient={bitcoinConnect}
+    />,
+  );
 
-  await connectWallet(validConnectionString);
+  await connectWallet();
   setIonInput("Total amount", "3000");
   setIonInput("Participant count", "3");
   fireEvent.click(screen.getByText("START SPLIT"));
@@ -197,10 +200,16 @@ test("creates split invoices through the connected wallet", async () => {
 
 test("checks settlement through the connected wallet", async () => {
   const wallet = new FakeWalletConnectionClient();
+  const bitcoinConnect = new FakeBitcoinConnectClient();
   wallet.lookupResults = [{ state: "settled", settledAt: 1_778_889_600 }];
-  render(<InvoiceGenerator walletConnector={wallet} />);
+  render(
+    <InvoiceGenerator
+      walletConnector={wallet}
+      bitcoinConnectClient={bitcoinConnect}
+    />,
+  );
 
-  await connectWallet(validConnectionString);
+  await connectWallet();
   setIonInput("Total amount", "1000");
   fireEvent.click(screen.getByText("START SPLIT"));
   await screen.findByText("Participant 1 of 1");
@@ -215,24 +224,27 @@ test("checks settlement through the connected wallet", async () => {
 
 test("disconnect clears wallet state and disables split creation", async () => {
   const wallet = new FakeWalletConnectionClient();
-  render(<InvoiceGenerator walletConnector={wallet} />);
+  const bitcoinConnect = new FakeBitcoinConnectClient();
+  render(
+    <InvoiceGenerator
+      walletConnector={wallet}
+      bitcoinConnectClient={bitcoinConnect}
+    />,
+  );
 
-  await connectWallet(validConnectionString);
+  await connectWallet();
   fireEvent.click(screen.getByText("DISCONNECT"));
 
   await waitFor(() => expect(wallet.disconnected).toBe(true));
+  await waitFor(() => expect(bitcoinConnect.disconnected).toBe(true));
   expect(await screen.findByText("Wallet connection is missing")).toBeTruthy();
   expect(screen.queryByText("START SPLIT")).toBeNull();
 });
 
-async function connectWallet(connectionString: string): Promise<void> {
-  fireEvent.click(await screen.findByText("NWC文字列で接続"));
-  fireEvent.change(connectionTextarea(), {
-    target: { value: connectionString },
-  });
-  fireEvent.click(screen.getByText("CONNECT"));
+async function connectWallet(): Promise<void> {
+  fireEvent.click(await screen.findByText("ウォレットを接続"));
   await waitFor(() =>
-    expect(screen.queryByDisplayValue(connectionString)).toBeNull()
+    expect(screen.queryByDisplayValue(validConnectionString)).toBeNull()
   );
 }
 
@@ -243,12 +255,6 @@ function setIonInput(label: string, value: string): void {
   if (!input) throw new Error(`missing ion input: ${label}`);
   input.value = value;
   fireEvent(input, new CustomEvent("ionInput", { bubbles: true }));
-}
-
-function connectionTextarea(): HTMLTextAreaElement {
-  return screen.getByLabelText(
-    "Nostr Wallet Connect connection string",
-  ) as HTMLTextAreaElement;
 }
 
 function queryConnectionTextarea(): HTMLTextAreaElement | null {
