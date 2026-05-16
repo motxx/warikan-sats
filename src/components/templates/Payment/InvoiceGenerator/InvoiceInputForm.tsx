@@ -23,7 +23,7 @@ export const InvoiceInputForm: React.FC<Props> = ({ onChange }) => {
   }, [resultBalance, participantCount, notes]);
 
   return (
-    <div className="flex flex-col place-items-center h-full w-full">
+    <div className="flex h-full w-full flex-col items-stretch gap-5">
       <WarikanArgsInput
         onInput={(input) => {
           setResultBalance(input.amount);
@@ -31,10 +31,10 @@ export const InvoiceInputForm: React.FC<Props> = ({ onChange }) => {
         }}
         lang="ja"
       />
-      <div className="pt-[15%] pb-[5%]">
+      <div>
         <ResultBalance balance={resultBalance} lang="ja" />
       </div>
-      <div className="w-3/5">
+      <div className="w-full">
         <AddNotes onInput={setNotes} />
       </div>
     </div>

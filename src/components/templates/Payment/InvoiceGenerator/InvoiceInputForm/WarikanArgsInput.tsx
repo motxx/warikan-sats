@@ -26,10 +26,10 @@ export const WarikanArgsInput: React.FC<Props> = ({ onInput, lang }) => {
   }, [total, dividedBy]);
 
   return (
-    <div className="flex flex-row gap-4">
-      <div className="w-3/5 flex flex-row place-items-center text-sm text-white font-medium">
-        <span className="w-1/3 min-w-[30px] pt-4 text-center">total</span>
-        <div className="w-2/3">
+    <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+      <label className="grid gap-2 text-sm font-medium text-white">
+        <span>合計</span>
+        <div>
           <NumberInput
             ariaLabel="Total amount"
             onInput={setTotal}
@@ -37,17 +37,17 @@ export const WarikanArgsInput: React.FC<Props> = ({ onInput, lang }) => {
             defaultValue={0}
           />
         </div>
-      </div>
-      <div className="w-2/5 flex flex-row place-items-center text-sm text-white font-medium">
-        <span className="w-1/2 min-w-[30px] pt-4 text-center">divided by</span>
-        <div className="w-2/3">
+      </label>
+      <label className="grid gap-2 text-sm font-medium text-white">
+        <span>人数</span>
+        <div>
           <NumberInput
             ariaLabel="Participant count"
             onInput={setDividedBy}
             defaultValue={1}
           />
         </div>
-      </div>
+      </label>
     </div>
   );
 };

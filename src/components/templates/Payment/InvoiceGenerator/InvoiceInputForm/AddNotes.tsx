@@ -7,8 +7,8 @@ type Props = {
 
 export const AddNotes: React.FC<Props> = ({ onInput }) => {
   return (
-    <div className="place-items-center w-full">
-      <TextInput onInput={onInput} placeholder="Add notes" />
+    <div className="w-full">
+      <TextInput onInput={onInput} placeholder="メモ" textAlign="left" />
     </div>
   );
 };

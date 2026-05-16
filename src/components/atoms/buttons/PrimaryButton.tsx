@@ -15,7 +15,7 @@ export const PrimaryButton: React.FC<Props> = ({
   return (
     <IonButton
       color="primary"
-      className="h-full w-full m-0 text-xs font-bold"
+      className="m-0 min-h-12 w-full text-sm font-bold"
       style={{ textTransform: "none" }}
       onClick={onClick}
       disabled={disabled}

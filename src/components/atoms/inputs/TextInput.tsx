@@ -11,9 +11,15 @@ export const TextInput: React.FC<Props> = ({
   placeholder,
   textAlign = "center",
 }) => {
+  const textAlignClass = {
+    left: "text-left",
+    center: "text-center",
+    right: "text-right",
+  }[textAlign];
+
   return (
     <IonInput
-      className={`border-b border-gray-300 text-sm font-medium text-${textAlign} h-full w-full`}
+      className={`h-12 w-full border-b border-gray-300 text-base font-medium ${textAlignClass}`}
       onIonInput={(e) => onInput(e.target.value?.toString() ?? "")}
       placeholder={placeholder}
     />

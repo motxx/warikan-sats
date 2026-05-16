@@ -1,6 +1,14 @@
-describe('My First Test', () => {
-  it('Visits the app root url', () => {
-    cy.visit('/')
-    cy.contains('ion-content', 'Tab 1 page')
-  })
-})
+describe("mobile split flow", () => {
+  it("opens the split collection page in a phone viewport", () => {
+    cy.viewport("iphone-6");
+    cy.visit("/");
+
+    cy.contains("h1", "割り勘回収").should("be.visible");
+    cy.contains("ion-button", "CONNECT").should("be.visible");
+    cy.contains("ion-button", "START SPLIT").should("not.exist");
+    cy.contains(/^Wallet$/).should("not.exist");
+    cy.contains(/^Contact$/).should("not.exist");
+    cy.get('textarea[aria-label="Nostr Wallet Connect connection string"]')
+      .should("have.css", "font-size", "16px");
+  });
+});

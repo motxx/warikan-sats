@@ -74,6 +74,7 @@ export const InvoiceGenerator: React.FC<Props> = ({ walletConnector }) => {
   }, [client]);
 
   const activeInvoice = sequence ? getActiveSplitInvoice(sequence) : null;
+  const isWalletReady = walletStatus === "ready";
 
   const connectWallet = async () => {
     const submitted = connectionString.trim();
@@ -140,58 +141,76 @@ export const InvoiceGenerator: React.FC<Props> = ({ walletConnector }) => {
   };
 
   return (
-    <div className="flex w-full flex-col place-items-center gap-6 pb-8">
+    <div className="flex w-full flex-col items-stretch gap-5 pb-4">
       <header className="w-full text-white">
-        <h1 className="m-0 text-3xl font-bold">Split collection</h1>
-        <p className="mt-2 text-sm text-white/70">
-          Connect your receiving wallet, create one invoice per participant, and
-          confirm each payment before moving to the next.
+        <h1 className="m-0 text-[1.75rem] font-bold leading-tight">
+          割り勘回収
+        </h1>
+        <p className="mt-2 text-[0.95rem] leading-6 text-white/75">
+          受け取り用ウォレットをつなぎ、参加者ごとの請求を順番に確認します。
         </p>
       </header>
-      <section className="w-full grid grid-cols-1 gap-3 text-white">
-        <label
-          className="text-xs font-semibold"
-          htmlFor="nwc-connection-string"
-        >
-          Nostr Wallet Connect
-        </label>
-        <textarea
-          id="nwc-connection-string"
-          aria-label="Nostr Wallet Connect connection string"
-          className="min-h-[5rem] w-full resize-y rounded border border-white/30 bg-transparent p-3 text-xs text-white placeholder:text-white/50"
-          value={connectionString}
-          onChange={(event) => setConnectionString(event.target.value)}
-          placeholder="nostr+walletconnect://..."
-          spellCheck={false}
-        />
-        <div className="grid grid-cols-2 gap-2">
-          <GenerateInvoiceButton
-            label="CONNECT WALLET"
-            disabled={walletStatus === "checking"}
-            onGenerate={connectWallet}
-          />
-          <GenerateInvoiceButton
-            label="DISCONNECT"
-            disabled={walletStatus === "checking" || walletStatus === "missing"}
-            onGenerate={disconnectWallet}
-          />
+      <section className="grid w-full grid-cols-1 gap-3 text-white">
+        <div className="flex items-center justify-between gap-3">
+          <div className="min-w-0">
+            <div className="text-sm font-semibold">Nostr Wallet Connect</div>
+            <div
+              className="mt-1 min-h-[1.25rem] text-sm leading-5"
+              role="status"
+            >
+              {walletMessage}
+            </div>
+          </div>
+          {isWalletReady
+            ? (
+              <div className="w-32 shrink-0">
+                <GenerateInvoiceButton
+                  label="DISCONNECT"
+                  onGenerate={disconnectWallet}
+                />
+              </div>
+            )
+            : null}
         </div>
-        <div className="min-h-[1.25rem] text-xs" role="status">
-          {walletMessage}
-        </div>
+        {isWalletReady ? null : (
+          <>
+            <label className="sr-only" htmlFor="nwc-connection-string">
+              Nostr Wallet Connect
+            </label>
+            <textarea
+              id="nwc-connection-string"
+              aria-label="Nostr Wallet Connect connection string"
+              className="min-h-[4.5rem] w-full resize-y rounded-lg border border-white/30 bg-transparent p-3 text-base leading-5 text-white placeholder:text-white/50"
+              value={connectionString}
+              onChange={(event) => setConnectionString(event.target.value)}
+              placeholder="nostr+walletconnect://..."
+              spellCheck={false}
+            />
+            <GenerateInvoiceButton
+              label="CONNECT"
+              disabled={walletStatus === "checking"}
+              onGenerate={connectWallet}
+            />
+          </>
+        )}
       </section>
-      <InvoiceInputForm onChange={setInput} />
-      <div className="w-full">
-        <GenerateInvoiceButton
-          disabled={walletStatus !== "ready" || input.amount <= 0 ||
-            sequence?.status === "checking"}
-          onGenerate={startSplit}
-        />
-      </div>
-      <div className="grid grid-cols-1 place-items-center gap-3 w-full">
+      {isWalletReady
+        ? (
+          <>
+            <InvoiceInputForm onChange={setInput} />
+            <div className="w-full">
+              <GenerateInvoiceButton
+                disabled={input.amount <= 0 || sequence?.status === "checking"}
+                onGenerate={startSplit}
+              />
+            </div>
+          </>
+        )
+        : null}
+      <div className="grid w-full grid-cols-1 place-items-center gap-3">
         {sequence && activeInvoice
           ? (
-            <div className="text-center text-white text-sm font-semibold">
+            <div className="text-center text-sm font-semibold text-white">
               Participant {activeInvoice.participantIndex} of{" "}
               {sequence.participantCount}
               <div className="text-xs font-normal">
@@ -203,12 +222,12 @@ export const InvoiceGenerator: React.FC<Props> = ({ walletConnector }) => {
         {activeInvoice
           ? <InvoiceQRCodeOutput invoiceData={activeInvoice.invoice} />
           : null}
-        <div className="min-h-[1.5rem] text-xs text-white text-center">
+        <div className="min-h-[1.5rem] text-center text-sm leading-5 text-white">
           {sequence?.status === "completed" ? "All paid" : status}
         </div>
         {activeInvoice && sequence?.status !== "completed"
           ? (
-            <div className="w-4/5">
+            <div className="w-full">
               <GenerateInvoiceButton
                 label="CHECK PAYMENT"
                 disabled={sequence?.status === "checking"}
@@ -219,7 +238,7 @@ export const InvoiceGenerator: React.FC<Props> = ({ walletConnector }) => {
           : null}
         {sequence?.status === "failed"
           ? (
-            <div className="w-4/5">
+            <div className="w-full">
               <GenerateInvoiceButton label="RETRY" onGenerate={retry} />
             </div>
           )

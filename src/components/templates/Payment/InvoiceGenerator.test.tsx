@@ -82,7 +82,7 @@ test("connects a wallet and clears the submitted connection secret from the UI",
 
   expect(wallet.connectedWith).toBe(validConnectionString);
   expect(await screen.findByText("Wallet connection is ready")).toBeTruthy();
-  expect(connectionTextarea().value).toBe("");
+  expect(queryConnectionTextarea()).toBeNull();
   expect(screen.queryByText(fakeSecret)).toBeNull();
 });
 
@@ -90,8 +90,20 @@ test("does not render an invoice QR before a split is created", async () => {
   const wallet = new FakeWalletConnectionClient();
   render(<InvoiceGenerator walletConnector={wallet} />);
 
-  expect(await screen.findByText("Split collection")).toBeTruthy();
+  expect(await screen.findByText("割り勘回収")).toBeTruthy();
   expect(document.querySelector("canvas")).toBeNull();
+});
+
+test("renders mobile-first split inputs", async () => {
+  const wallet = new FakeWalletConnectionClient();
+  wallet.restoreStatus = "ready";
+  render(<InvoiceGenerator walletConnector={wallet} />);
+
+  expect(await screen.findByText("Wallet connection is ready")).toBeTruthy();
+  expect(screen.getByText("合計")).toBeTruthy();
+  expect(screen.getByText("人数")).toBeTruthy();
+  expect(screen.getAllByPlaceholderText("メモ").length).toBeGreaterThan(0);
+  expect(screen.getByText("DISCONNECT")).toBeTruthy();
 });
 
 test("reports invalid wallet connection strings without retaining the submitted value", async () => {
@@ -164,19 +176,17 @@ test("disconnect clears wallet state and disables split creation", async () => {
 
   await waitFor(() => expect(wallet.disconnected).toBe(true));
   expect(await screen.findByText("Wallet connection is missing")).toBeTruthy();
-  expect(
-    screen.getByText("START SPLIT").closest("ion-button")?.hasAttribute(
-      "disabled",
-    ),
-  ).toBe(true);
+  expect(screen.queryByText("START SPLIT")).toBeNull();
 });
 
 async function connectWallet(connectionString: string): Promise<void> {
   fireEvent.change(connectionTextarea(), {
     target: { value: connectionString },
   });
-  fireEvent.click(screen.getByText("CONNECT WALLET"));
-  await waitFor(() => expect(connectionTextarea().value).toBe(""));
+  fireEvent.click(screen.getByText("CONNECT"));
+  await waitFor(() =>
+    expect(screen.queryByDisplayValue(connectionString)).toBeNull()
+  );
 }
 
 function setIonInput(label: string, value: string): void {
@@ -192,4 +202,10 @@ function connectionTextarea(): HTMLTextAreaElement {
   return screen.getByLabelText(
     "Nostr Wallet Connect connection string",
   ) as HTMLTextAreaElement;
+}
+
+function queryConnectionTextarea(): HTMLTextAreaElement | null {
+  return screen.queryByLabelText(
+    "Nostr Wallet Connect connection string",
+  ) as HTMLTextAreaElement | null;
 }

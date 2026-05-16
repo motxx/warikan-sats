@@ -5,7 +5,7 @@ import App from "./App";
 test("renders without crashing", async () => {
   const { baseElement } = render(<App />);
 
-  expect(await screen.findByText("Split collection")).toBeTruthy();
+  expect(await screen.findByText("割り勘回収")).toBeTruthy();
   expect(baseElement).toBeDefined();
 });
 
@@ -14,7 +14,7 @@ test("redirects the configured root path to the split collection flow", async ()
 
   render(<App />);
 
-  expect(await screen.findByText("Split collection")).toBeTruthy();
+  expect(await screen.findByText("割り勘回収")).toBeTruthy();
   expect(window.location.pathname).toBe("/payment");
 });
 
@@ -23,7 +23,7 @@ test("does not expose unused wallet, contact, or placeholder menu surfaces", asy
 
   render(<App />);
 
-  expect(await screen.findByText("Split collection")).toBeTruthy();
+  expect(await screen.findByText("割り勘回収")).toBeTruthy();
   expect(screen.queryByText("Wallet")).toBeNull();
   expect(screen.queryByText("Contact")).toBeNull();
   expect(screen.queryByText("Menu Content")).toBeNull();

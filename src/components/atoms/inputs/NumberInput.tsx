@@ -40,7 +40,8 @@ export const NumberInput: React.FC<Props> = ({
   return (
     <IonInput
       aria-label={ariaLabel}
-      className="border-b border-gray-300 text-lg font-medium text-center h-full w-full"
+      className="h-12 w-full border-b border-gray-300 text-center text-base font-medium"
+      inputMode="numeric"
       value={inputModel}
       onIonInput={onInputWithValidation}
       ref={ionInputEl}
