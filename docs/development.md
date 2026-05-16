@@ -8,10 +8,11 @@ deno task test:all
 deno task test:all:docker
 ```
 
-`deno task test:all` is the local quality gate: Deno source lint, repository lints, script tests,
-TypeScript checks, unit tests, and production build. `deno task test:all:docker` is
-reserved for Docker-backed browser or integration coverage; until that harness
-is implemented it reports the tracked pending issue and exits successfully.
+`deno task test:all` is the local quality gate: Deno source lint, repository
+lints, script tests, unit tests, integration tests, TypeScript checks, UI smoke
+tests, and production build. `deno task test:all:docker` is reserved for
+Docker-backed browser or integration coverage; until that harness is
+implemented it reports the tracked pending issue and exits successfully.
 
 Install the repository git hooks with `deno task setup:hooks`. The pre-commit hook
 runs the strict lint gate.
@@ -35,6 +36,7 @@ runs the strict lint gate.
 - `scripts/lint-types.ts`: repository lint for broad TypeScript escape hatches.
 - `scripts/lint-no-dynamic-import.ts`: repository lint that keeps the module
   graph statically visible.
+- `tests`: Deno-first test layout and NWC test helpers.
 - `docs/review-harness.md`: where recurring review findings should be routed.
 
 ## README And Package Metadata Changes

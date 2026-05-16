@@ -9,7 +9,11 @@ test, or issue over relying on human memory.
 | Command | Owner |
 | --- | --- |
 | `deno task lint:strict` | Deno source lint, local path leaks, unsafe type escapes, and dynamic imports. |
-| `deno task test:all` | Local quality gate: repository lints, script tests, TypeScript checks, unit tests, and production build. |
+| `deno task test:unit` | Deno unit tests for pure logic, state machines, and connector helpers. |
+| `deno task test:integration` | Deno integration tests that do not require the NWC regtest wallet stack. |
+| `deno task test:ui` | Existing React DOM smoke tests through Vitest while UI tests are migrated. |
+| `deno task test:e2e:regtest` | Named entrypoint for future NWC regtest E2E coverage. |
+| `deno task test:all` | Local quality gate: repository lints, script tests, unit tests, integration tests, TypeScript checks, UI smoke tests, and production build. |
 | `deno task test:all:docker` | Docker-backed gate. This currently reports the tracked pending NWC regtest E2E issue and exits successfully. |
 | `deno task ci` | CI entrypoint for the full local gate. |
 
@@ -23,6 +27,7 @@ test, or issue over relying on human memory.
 | Browser workflow regression | Resolve or extend `docs/issues/pending/0007-add-nwc-regtest-warikan-e2e.md`. |
 | NWC wallet connector regression | Extend `docs/issues/pending/0008-implement-nwc-wallet-connector.md` and its focused tests. |
 | NWC connection design drift | Update `docs/nwc-wallet-connection.md` and dependent issue acceptance criteria. |
+| Deno test harness drift | Update `tests/README.md`, `deno.json`, and `scripts/test-all.sh` together. |
 | Package-manager, CI command, or README command drift | Update `package.json`, CI workflow, and README examples in the same change. |
 
 ## Residual Review

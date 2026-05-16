@@ -33,8 +33,10 @@ run_local() {
   step "Local quality gate"
   run_check "repository lints" deno task lint:strict
   run_check "script tests" deno task test:scripts
-  run_check "type check" deno task check
   run_check "unit tests" deno task test:unit
+  run_check "integration tests" deno task test:integration
+  run_check "type check" deno task check
+  run_check "ui smoke tests" deno task test:ui
   run_check "production build" deno task build
 }
 

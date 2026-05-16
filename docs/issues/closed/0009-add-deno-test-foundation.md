@@ -41,3 +41,38 @@ and E2E tests before the NWC and split-payment work starts.
   class has a clear owner.
 - Document how existing Vitest or Cypress coverage should be migrated or
   retired.
+
+Completed: 2026-05-16
+
+## Resolution
+
+Implemented by updating:
+
+- `deno.json`
+- `scripts/test-all.sh`
+- `tests/README.md`
+- `tests/helpers/fake_nwc_wallet.ts`
+- `tests/unit/fake_nwc_wallet.test.ts`
+- `tests/integration/foundation.test.ts`
+- `docs/development.md`
+- `docs/review-harness.md`
+
+Verified with:
+
+- `deno task test:all`
+
+Harness update:
+
+- `deno.json` now exposes separate `test:unit`, `test:integration`,
+  `test:ui`, and `test:e2e:regtest` entrypoints.
+- `scripts/test-all.sh` runs the Deno unit and integration suites in the local
+  quality gate.
+
+Review residuals:
+
+- Regtest E2E remains tracked by
+  `docs/issues/pending/0007-add-nwc-regtest-warikan-e2e.md`.
+
+Follow-up:
+
+- None
