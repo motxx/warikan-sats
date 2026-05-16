@@ -26,6 +26,7 @@ test, or issue over relying on human memory.
 | Developer-local paths in tracked text | Extend `scripts/check-no-local-paths.ts` and its tests. |
 | Browser workflow regression | Extend `tests/e2e/nwc_regtest_warikan.test.ts` or add browser automation when UI-level coverage is needed. |
 | NWC wallet connector regression | Extend `src/services/nwc.ts` and `tests/unit/nwc_connector.test.ts`. |
+| NWC mainnet relay, encryption, or timeout regression | Extend `src/services/nwcNostrTransport.ts`, `tests/unit/nwc_nostr_transport.test.ts`, and `docs/nwc-mainnet-smoke-test.md`. |
 | NWC regtest wallet environment drift | Extend `scripts/nwc-regtest.ts`, `tests/integration/nwc_regtest_environment.test.ts`, and `docs/nwc-regtest-environment.md`. |
 | NWC connection design drift | Update `docs/nwc-wallet-connection.md` and dependent issue acceptance criteria. |
 | Deno test harness drift | Update `tests/README.md`, `deno.json`, and `scripts/test-all.sh` together. |

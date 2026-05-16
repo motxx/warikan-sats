@@ -43,3 +43,43 @@ or wallet failures visible enough for users to recover.
   and no committed secrets.
 - Update `docs/review-harness.md` with the mainnet smoke-test routing and keep
   automated regression coverage on regtest by default.
+
+Completed: 2026-05-16
+
+## Resolution
+
+Implemented by updating:
+
+- `package.json`
+- `deno.lock`
+- `src/services/nwc.ts`
+- `src/services/nwcMainnet.ts`
+- `src/services/nwcNostrTransport.ts`
+- `tests/unit/nwc_connector.test.ts`
+- `tests/unit/nwc_nostr_transport.test.ts`
+- `docs/nwc-wallet-connection.md`
+- `docs/nwc-mainnet-smoke-test.md`
+- `docs/review-harness.md`
+
+Verified with:
+
+- `deno task lint:strict`
+- `deno task test:unit`
+- `deno task check`
+- `deno task build`
+
+Harness update:
+
+- Added `tests/unit/nwc_nostr_transport.test.ts` for info-event parsing,
+  request publishing, response parsing, and unsupported encryption handling.
+- Regtest E2E remains the automated no-backend regression gate for split
+  payment completion.
+
+Review residuals:
+
+- Real mainnet wallet behavior requires a maintainer-run smoke test with a
+  wallet-created NWC URI, documented in `docs/nwc-mainnet-smoke-test.md`.
+
+Follow-up:
+
+- None

@@ -5,6 +5,7 @@ export type NwcConnectionStatus =
   | "unsupported"
   | "unauthorized"
   | "relay_unreachable"
+  | "timeout"
   | "error";
 
 export type NwcInvoiceState = "pending" | "settled" | "expired" | "failed";
@@ -17,6 +18,7 @@ export type NwcErrorCode =
   | "RATE_LIMITED"
   | "NOT_FOUND"
   | "RELAY_UNREACHABLE"
+  | "TIMEOUT"
   | "UNKNOWN";
 
 export interface NwcConnection {
@@ -178,6 +180,29 @@ export class UnavailableNwcTransport implements NwcTransport {
         "NWC relay transport is not configured",
       ),
     );
+  }
+}
+
+export function nwcConnectionStatusMessage(
+  status: NwcConnectionStatus,
+): string {
+  switch (status) {
+    case "missing":
+      return "Wallet connection is missing";
+    case "checking":
+      return "Checking wallet connection";
+    case "ready":
+      return "Wallet connection is ready";
+    case "unsupported":
+      return "Wallet does not support required invoice capabilities";
+    case "unauthorized":
+      return "Wallet rejected this connection";
+    case "relay_unreachable":
+      return "Wallet relay is unreachable";
+    case "timeout":
+      return "Wallet response timed out";
+    case "error":
+      return "Wallet connection failed";
   }
 }
 
@@ -394,6 +419,8 @@ function connectionStatusFromError(error: unknown): NwcConnectionStatus {
       return "unsupported";
     case "RELAY_UNREACHABLE":
       return "relay_unreachable";
+    case "TIMEOUT":
+      return "timeout";
     default:
       return "error";
   }

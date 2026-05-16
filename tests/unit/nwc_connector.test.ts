@@ -3,6 +3,7 @@ import {
   MemoryNwcConnectionStore,
   NwcCapabilityError,
   type NwcConnection,
+  nwcConnectionStatusMessage,
   type NwcInfo,
   type NwcLookupInvoiceResult,
   NwcProtocolError,
@@ -113,6 +114,17 @@ Deno.test("NWC connector maps relay failures without storing the connection", as
 
   assertEquals(status, "relay_unreachable");
   assertEquals(await store.get(), null);
+});
+
+Deno.test("NWC connector exposes user-facing connection status messages", () => {
+  assertEquals(
+    nwcConnectionStatusMessage("unsupported"),
+    "Wallet does not support required invoice capabilities",
+  );
+  assertEquals(
+    nwcConnectionStatusMessage("timeout"),
+    "Wallet response timed out",
+  );
 });
 
 Deno.test("NWC connector creates invoices through make_invoice", async () => {

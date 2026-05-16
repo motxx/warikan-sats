@@ -137,3 +137,16 @@ Focused connector tests belong to `0008`. They should cover:
 - `get_balance` unavailable behavior.
 
 Regtest wallet coverage belongs to `0006` and `0007`.
+
+## Mainnet Transport
+
+Mainnet NWC relay access is implemented by `src/services/nwcNostrTransport.ts`
+and wired for browser use by `src/services/nwcMainnet.ts`. The transport uses
+the user-provided NWC URI only in client-side storage, signs Nostr requests with
+the app-specific NWC credential, encrypts request and response payloads with
+NIP-04, reads wallet info events from kind `13194`, sends requests as kind
+`23194`, and waits for kind `23195` responses.
+
+Automated coverage stays on regtest by default. Maintainer-run mainnet checks
+are documented in `docs/nwc-mainnet-smoke-test.md` and must not commit wallet
+connection strings or payment details.
