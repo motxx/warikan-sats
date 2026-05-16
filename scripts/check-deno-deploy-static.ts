@@ -6,7 +6,7 @@ const clientJavaScript = await readClientJavaScript("dist/assets");
 
 assert(
   !indexHtml.includes("/warikan-sats/"),
-  "Deno Deploy static build must not include the GitHub Pages subpath.",
+  "Deno Deploy static build must not include the legacy subpath.",
 );
 assertStringIncludes(
   indexHtml,
@@ -19,7 +19,7 @@ assert(
 );
 assert(
   !clientJavaScript.includes("/warikan-sats/"),
-  "Deno Deploy JavaScript bundle must not include GitHub Pages routes.",
+  "Deno Deploy JavaScript bundle must not include legacy subpath routes.",
 );
 assertStringIncludes(
   clientJavaScript,

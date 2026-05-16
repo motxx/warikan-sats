@@ -14,7 +14,7 @@ can run this smoke test manually when validating a real NWC wallet connection.
 
 ## Steps
 
-1. Open the static client build or deployed GitHub Pages app.
+1. Open the static client build or deployed Deno Deploy app.
 2. Paste the wallet-created NWC connection string into the client connection
    flow.
 3. Confirm the app reports a ready connection. If it reports unsupported

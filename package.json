@@ -1,6 +1,5 @@
 {
   "name": "warikan-sats",
-  "homepage": "https://motxx.github.io/warikan-sats/",
   "private": true,
   "version": "0.0.1",
   "type": "module",
@@ -8,7 +7,6 @@
     "dev": "deno task dev",
     "check": "deno task check",
     "build": "deno task build",
-    "build:github-pages": "deno task build:github-pages",
     "build:deno-deploy": "deno task build:deno-deploy",
     "preview": "deno task preview",
     "test.e2e": "deno task test:all:docker",

@@ -18,7 +18,6 @@ GitHub Actions uses the same Deno commands:
 
 - `deno task ci` for the local quality gate.
 - `deno task test:e2e:regtest` for the real Lightning regtest smoke gate.
-- `deno task build:github-pages` for the current GitHub Pages artifact.
 - `deno task test:deploy:deno` for the Deno Deploy static artifact.
 
 Install the repository git hooks with `deno task setup:hooks`. The pre-commit hook

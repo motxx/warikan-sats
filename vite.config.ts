@@ -5,7 +5,7 @@ import { defineConfig, loadEnv } from "vite";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
-  const base = normalizeBasePath(env.VITE_BASE_PATH ?? "/warikan-sats/");
+  const base = normalizeBasePath(env.VITE_BASE_PATH ?? "/");
 
   return {
     plugins: [react(), legacy()],
@@ -18,5 +18,7 @@ function normalizeBasePath(value: string): string {
   if (trimmed === "" || trimmed === "/") return "/";
 
   const withLeadingSlash = trimmed.startsWith("/") ? trimmed : `/${trimmed}`;
-  return withLeadingSlash.endsWith("/") ? withLeadingSlash : `${withLeadingSlash}/`;
+  return withLeadingSlash.endsWith("/")
+    ? withLeadingSlash
+    : `${withLeadingSlash}/`;
 }

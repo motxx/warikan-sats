@@ -8,10 +8,10 @@ test("renders without crashing", () => {
 });
 
 test("redirects the configured root path to the wallet page", async () => {
-  window.history.pushState({}, "", "/warikan-sats/");
+  window.history.pushState({}, "", "/");
 
   render(<App />);
 
   expect(await screen.findByText("History")).toBeTruthy();
-  expect(window.location.pathname).toBe("/warikan-sats/wallet");
+  expect(window.location.pathname).toBe("/wallet");
 });

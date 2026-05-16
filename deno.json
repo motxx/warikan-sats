@@ -5,7 +5,6 @@
     "preview": "deno run -A npm:vite@^4.3.9 preview",
     "check": "deno run -A npm:typescript@^5.1.6/tsc --noEmit",
     "build": "deno task check && deno run -A npm:vite@^4.3.9 build && cp dist/index.html dist/404.html",
-    "build:github-pages": "VITE_BASE_PATH=/warikan-sats/ deno task build",
     "build:deno-deploy": "VITE_BASE_PATH=/ deno task build",
     "test:deploy:deno": "deno task build:deno-deploy && deno run --allow-read scripts/check-deno-deploy-static.ts",
     "lint:paths": "deno run --allow-read scripts/check-no-local-paths.ts",

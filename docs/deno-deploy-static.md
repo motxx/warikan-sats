@@ -40,8 +40,8 @@ Validate the deployment artifact with:
 deno task test:deploy:deno
 ```
 
-This check rebuilds the root-path artifact and verifies that the generated
-HTML does not contain the GitHub Pages `/warikan-sats/` subpath.
+This check rebuilds the root-path artifact and verifies that the generated HTML
+and JavaScript do not contain the legacy `/warikan-sats/` subpath.
 
 ## Deno Deploy App Settings
 
@@ -73,15 +73,3 @@ If configuring through the dashboard, use equivalent settings:
 - Static directory: `dist`.
 - Single-page app fallback: enabled.
 - Server entrypoint: none.
-
-## GitHub Pages Compatibility
-
-GitHub Pages currently uses:
-
-```sh
-deno task build:github-pages
-```
-
-This keeps the existing `/warikan-sats/` asset base. Do not remove the GitHub
-Pages job until the Deno Deploy production app has been created and verified by
-the maintainer.

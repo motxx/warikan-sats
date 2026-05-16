@@ -34,7 +34,7 @@ test, or issue over relying on human memory.
 | NWC connection design drift | Update `docs/nwc-wallet-connection.md` and dependent issue acceptance criteria. |
 | Deno test harness drift | Update `tests/README.md`, `deno.json`, and `scripts/test-all.sh` together. |
 | Deno Deploy static hosting drift | Update `vite.config.ts`, `scripts/check-deno-deploy-static.ts`, `docs/deno-deploy-static.md`, and `deno task test:deploy:deno`. |
-| Package-manager, CI command, deploy, or README command drift | Update `package.json`, `deno.json`, `.github/workflows/gh-pages.yml`, `docs/development.md`, and README examples in the same change. |
+| Package-manager, CI command, deploy, or README command drift | Update `package.json`, `deno.json`, `.github/workflows/ci.yml`, `docs/development.md`, and README examples in the same change. |
 
 ## Residual Review
 
