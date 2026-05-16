@@ -18,8 +18,8 @@ GitHub Actions uses the same Deno commands:
 
 - `deno task ci` for the local quality gate.
 - `deno task test:e2e:regtest` for the real Lightning regtest smoke gate.
-- `deno task build` for static client artifact verification and GitHub Pages
-  deployment.
+- `deno task build:github-pages` for the current GitHub Pages artifact.
+- `deno task test:deploy:deno` for the Deno Deploy static artifact.
 
 Install the repository git hooks with `deno task setup:hooks`. The pre-commit hook
 runs the strict lint gate.
@@ -33,6 +33,8 @@ runs the strict lint gate.
 - `src/services`: currency and invoice domain helpers.
 - `docker-compose.lightning-regtest.yml`: real Bitcoin and Core Lightning
   regtest stack.
+- `docs/deno-deploy-static.md`: static Deno Deploy setup and no-backend
+  boundary.
 - `scripts/lightning-regtest.ts`: Docker Lightning regtest control and smoke
   test harness.
 - `tests/e2e/nwc_regtest_warikan.test.ts`: fake/file-backed NWC flow coverage
@@ -58,6 +60,8 @@ runs the strict lint gate.
 - Run `deno task test:scripts` after changing repository scripts.
 - Run `deno task build` after changing Vite, TypeScript, package metadata, or
   deploy behavior.
+- Run `deno task test:deploy:deno` after changing Vite base path, static
+  deploy behavior, or Deno Deploy documentation.
 - Run `deno task test:e2e:nwc-fake` after changing NWC connector or
   split-payment sequence behavior.
 - Run `deno task test:e2e:regtest` after changing Docker, Bitcoin, Lightning,

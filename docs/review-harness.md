@@ -14,6 +14,7 @@ test, or issue over relying on human memory.
 | `deno task test:ui` | Existing React DOM smoke tests through Vitest while UI tests are migrated. |
 | `deno task test:e2e:nwc-fake` | Fake/file-backed NWC flow coverage for multi-participant split-payment completion. |
 | `deno task test:e2e:regtest` | Real Docker Bitcoin and Lightning regtest smoke payment coverage. |
+| `deno task test:deploy:deno` | Root-path Deno Deploy static artifact verification. |
 | `deno task test:all` | Local quality gate: repository lints, script tests, unit tests, integration tests, TypeScript checks, UI smoke tests, and production build. |
 | `deno task test:all:docker` | Docker Lightning regtest gate. Runs `deno task test:e2e:regtest`. |
 | `deno task ci` | CI entrypoint for the full local gate. |
@@ -32,6 +33,7 @@ test, or issue over relying on human memory.
 | Fake NWC wallet environment drift | Extend `scripts/nwc-regtest.ts`, `tests/integration/nwc_regtest_environment.test.ts`, and `docs/nwc-regtest-environment.md`. |
 | NWC connection design drift | Update `docs/nwc-wallet-connection.md` and dependent issue acceptance criteria. |
 | Deno test harness drift | Update `tests/README.md`, `deno.json`, and `scripts/test-all.sh` together. |
+| Deno Deploy static hosting drift | Update `vite.config.ts`, `scripts/check-deno-deploy-static.ts`, `docs/deno-deploy-static.md`, and `deno task test:deploy:deno`. |
 | Package-manager, CI command, deploy, or README command drift | Update `package.json`, `deno.json`, `.github/workflows/gh-pages.yml`, `docs/development.md`, and README examples in the same change. |
 
 ## Residual Review

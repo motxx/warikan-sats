@@ -50,7 +50,7 @@ jobs:
           deno-version: v2.x
 
       - name: Build static client
-        run: deno task build
+        run: deno task build:github-pages
 
       - name: Configure Pages
         if: ${{ github.ref == 'refs/heads/main' }}
@@ -62,12 +62,25 @@ jobs:
         with:
           path: ./dist
 
+  build-deno-deploy-static:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - name: Build Deno Deploy static client
+        run: deno task test:deploy:deno
+
   deploy-pages:
     if: ${{ github.ref == 'refs/heads/main' }}
     needs:
       - quality
       - lightning-regtest
       - build-pages
+      - build-deno-deploy-static
     runs-on: ubuntu-latest
     environment:
       name: github-pages
