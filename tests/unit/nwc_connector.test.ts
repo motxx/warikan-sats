@@ -85,6 +85,34 @@ Deno.test("NWC connector requires invoice capabilities before storing", async ()
   assertEquals(await store.get(), null);
 });
 
+Deno.test("NWC connector restores a stored ready connection", async () => {
+  const store = new MemoryNwcConnectionStore(validConnectionString);
+  const connector = new NwcWalletConnector(store, new FakeNwcTransport());
+
+  const status = await connector.restore();
+  const invoice = await connector.createInvoice({
+    amountMsats: 42_000,
+    description: "warikan restored split",
+  });
+
+  assertEquals(status, "ready");
+  assertEquals(invoice.paymentHash, "payment-hash-1");
+  assertEquals(await store.get(), validConnectionString);
+});
+
+Deno.test("NWC connector clears stored connections with missing capabilities", async () => {
+  const store = new MemoryNwcConnectionStore(validConnectionString);
+  const connector = new NwcWalletConnector(
+    store,
+    new FakeNwcTransport({ capabilities: ["get_balance"] }),
+  );
+
+  const status = await connector.restore();
+
+  assertEquals(status, "unsupported");
+  assertEquals(await store.get(), null);
+});
+
 Deno.test("NWC connector maps authorization errors without storing the connection", async () => {
   const store = new MemoryNwcConnectionStore();
   const transport: NwcTransport = {

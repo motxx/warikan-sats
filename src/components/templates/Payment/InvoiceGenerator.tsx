@@ -5,7 +5,11 @@ import {
   type InvoiceInputValue,
 } from "./InvoiceGenerator/InvoiceInputForm";
 import { InvoiceQRCodeOutput } from "./InvoiceGenerator/InvoiceQRCodeOutput";
-import { generateInvoice } from "../../../services/invoice";
+import {
+  type NwcConnectionStatus,
+  nwcConnectionStatusMessage,
+} from "../../../services/nwc";
+import { createMainnetNwcConnector } from "../../../services/nwcMainnet";
 import {
   confirmActiveSplitInvoice,
   createSplitInvoiceSequence,
@@ -15,53 +19,102 @@ import {
   type SplitInvoiceSequence,
 } from "../../../services/splitInvoiceSequence";
 
-type Props = {};
+type Props = {
+  walletConnector?: WalletConnectionClient;
+};
+
+export interface WalletConnectionClient extends SplitInvoiceClient {
+  connect(connectionString: string): Promise<NwcConnectionStatus>;
+  restore(): Promise<NwcConnectionStatus>;
+  disconnect(): Promise<void>;
+}
+
 export const EmptyInvoiceData =
   "EMPTY00u1pj5fxaspp5dcqac89l07nhx3l6j7f5yhhhrsukzmt5433jt42kkaj3kcpp9kaqdqcu2d2rc56583f4g0zn2s79x4pcqzzsxqyz5vqsp5wtssdh7adu4q60pkxapqqnnep5ravsgcwxcmw664ggfslkllkvds9qyyssq9pl8npevwmpk8tz800sxeq2rt3quaxpvk89yt36zlnx0rudj7cy3jgmkr3du0l5whz32fgswm0tzzcf6tacg4lhh46tsg6asy4664acpfpr3p3";
 
-export const InvoiceGenerator: React.FC<Props> = ({}) => {
+export const InvoiceGenerator: React.FC<Props> = ({ walletConnector }) => {
   const [input, setInput] = React.useState<InvoiceInputValue>({
     amount: 0,
     participantCount: 1,
     notes: "",
   });
+  const [connectionString, setConnectionString] = React.useState("");
+  const [walletStatus, setWalletStatus] = React.useState<NwcConnectionStatus>(
+    "checking",
+  );
+  const [walletMessage, setWalletMessage] = React.useState(
+    nwcConnectionStatusMessage("checking"),
+  );
   const [sequence, setSequence] = React.useState<SplitInvoiceSequence | null>(
     null,
   );
   const [status, setStatus] = React.useState("");
-  const paidHashes = React.useRef(new Set<string>());
-  const nextInvoiceId = React.useRef(1);
 
-  const client = React.useMemo<SplitInvoiceClient>(() => ({
-    createInvoice: (invoiceInput) => {
-      const id = nextInvoiceId.current++;
-      return Promise.resolve({
-        invoice: `${generateInvoice(BigInt(invoiceInput.amountMsats))}_p${id}`,
-        paymentHash: `local-payment-hash-${id}`,
-        amountMsats: invoiceInput.amountMsats,
-      });
-    },
-    lookupInvoice: (lookupInput) =>
-      Promise.resolve({
-        state: lookupInput.paymentHash &&
-            paidHashes.current.has(lookupInput.paymentHash)
-          ? "settled"
-          : "pending",
-        settledAt: lookupInput.paymentHash &&
-            paidHashes.current.has(lookupInput.paymentHash)
-          ? Math.floor(Date.now() / 1000)
-          : undefined,
-      }),
-  }), []);
+  const client = React.useMemo<WalletConnectionClient>(
+    () => walletConnector ?? createMainnetNwcConnector(),
+    [walletConnector],
+  );
+
+  React.useEffect(() => {
+    let cancelled = false;
+
+    const restoreWallet = async () => {
+      const restoredStatus = await client.restore();
+      if (cancelled) return;
+      setWalletStatus(restoredStatus);
+      setWalletMessage(nwcConnectionStatusMessage(restoredStatus));
+    };
+
+    restoreWallet().catch(() => {
+      if (cancelled) return;
+      setWalletStatus("error");
+      setWalletMessage(nwcConnectionStatusMessage("error"));
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [client]);
 
   const activeInvoice = sequence ? getActiveSplitInvoice(sequence) : null;
   const invoiceData = activeInvoice?.invoice ?? EmptyInvoiceData;
 
+  const connectWallet = async () => {
+    const submitted = connectionString.trim();
+    setConnectionString("");
+    setSequence(null);
+    setStatus("");
+
+    if (!submitted) {
+      setWalletStatus("missing");
+      setWalletMessage(nwcConnectionStatusMessage("missing"));
+      return;
+    }
+
+    setWalletStatus("checking");
+    setWalletMessage(nwcConnectionStatusMessage("checking"));
+    const connectedStatus = await client.connect(submitted);
+    setWalletStatus(connectedStatus);
+    setWalletMessage(nwcConnectionStatusMessage(connectedStatus));
+  };
+
+  const disconnectWallet = async () => {
+    await client.disconnect();
+    setConnectionString("");
+    setSequence(null);
+    setStatus("");
+    setWalletStatus("missing");
+    setWalletMessage(nwcConnectionStatusMessage("missing"));
+  };
+
   const startSplit = async () => {
+    if (walletStatus !== "ready") {
+      setStatus(nwcConnectionStatusMessage(walletStatus));
+      return;
+    }
+
     setStatus("Creating invoices");
     setSequence(null);
-    paidHashes.current.clear();
-    nextInvoiceId.current = 1;
     try {
       const created = await createSplitInvoiceSequence({
         amountMsats: input.amount * 1_000,
@@ -71,7 +124,7 @@ export const InvoiceGenerator: React.FC<Props> = ({}) => {
       setSequence(created);
       setStatus("Waiting for payment");
     } catch (error) {
-      setStatus(error instanceof Error ? error.message : String(error));
+      setStatus(paymentErrorMessage(error));
     }
   };
 
@@ -83,12 +136,6 @@ export const InvoiceGenerator: React.FC<Props> = ({}) => {
     setStatus(statusForSequence(updated));
   };
 
-  const markPaid = async () => {
-    if (!activeInvoice) return;
-    paidHashes.current.add(activeInvoice.paymentHash);
-    await checkPayment();
-  };
-
   const retry = async () => {
     if (!sequence) return;
     const updated = await retryActiveSplitInvoice(sequence, client);
@@ -98,10 +145,43 @@ export const InvoiceGenerator: React.FC<Props> = ({}) => {
 
   return (
     <div className="flex flex-col place-items-center gap-5 w-full">
+      <section className="w-full grid grid-cols-1 gap-3 text-white">
+        <label
+          className="text-xs font-semibold"
+          htmlFor="nwc-connection-string"
+        >
+          Nostr Wallet Connect
+        </label>
+        <textarea
+          id="nwc-connection-string"
+          aria-label="Nostr Wallet Connect connection string"
+          className="min-h-[5rem] w-full resize-y rounded border border-white/30 bg-transparent p-3 text-xs text-white placeholder:text-white/50"
+          value={connectionString}
+          onChange={(event) => setConnectionString(event.target.value)}
+          placeholder="nostr+walletconnect://..."
+          spellCheck={false}
+        />
+        <div className="grid grid-cols-2 gap-2">
+          <GenerateInvoiceButton
+            label="CONNECT WALLET"
+            disabled={walletStatus === "checking"}
+            onGenerate={connectWallet}
+          />
+          <GenerateInvoiceButton
+            label="DISCONNECT"
+            disabled={walletStatus === "checking" || walletStatus === "missing"}
+            onGenerate={disconnectWallet}
+          />
+        </div>
+        <div className="min-h-[1.25rem] text-xs" role="status">
+          {walletMessage}
+        </div>
+      </section>
       <InvoiceInputForm onChange={setInput} />
       <div className="w-full pt-[5%] pb-[5%]">
         <GenerateInvoiceButton
-          disabled={input.amount <= 0 || sequence?.status === "checking"}
+          disabled={walletStatus !== "ready" || input.amount <= 0 ||
+            sequence?.status === "checking"}
           onGenerate={startSplit}
         />
       </div>
@@ -126,16 +206,11 @@ export const InvoiceGenerator: React.FC<Props> = ({}) => {
         </div>
         {activeInvoice && sequence?.status !== "completed"
           ? (
-            <div className="grid grid-cols-2 gap-2 w-4/5">
+            <div className="w-4/5">
               <GenerateInvoiceButton
                 label="CHECK PAYMENT"
                 disabled={sequence?.status === "checking"}
                 onGenerate={checkPayment}
-              />
-              <GenerateInvoiceButton
-                label="MARK PAID"
-                disabled={sequence?.status === "checking"}
-                onGenerate={markPaid}
               />
             </div>
           )
@@ -156,4 +231,12 @@ function statusForSequence(sequence: SplitInvoiceSequence): string {
   if (sequence.status === "completed") return "All paid";
   if (sequence.status === "failed") return sequence.error ?? "Payment failed";
   return "Waiting for payment";
+}
+
+function paymentErrorMessage(error: unknown): string {
+  const message = error instanceof Error ? error.message : String(error);
+  return message.replace(
+    /nostr\+walletconnect:\/\/\S+/g,
+    "[wallet connection]",
+  );
 }

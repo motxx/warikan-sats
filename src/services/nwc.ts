@@ -266,24 +266,25 @@ export class NwcWalletConnector {
       return "error";
     }
 
+    return await this.verifyConnection(connection, connectionString);
+  }
+
+  async restore(): Promise<NwcConnectionStatus> {
+    this.#connection = null;
+    this.#capabilities = null;
+
+    const connectionString = await this.store.get();
+    if (!connectionString) return "missing";
+
+    let connection: NwcConnection;
     try {
-      const info = await this.transport.getInfo(connection);
-      const capabilities = new Set(info.capabilities);
-      const missing = requiredInvoiceCapabilities().filter((capability) =>
-        !capabilities.has(capability)
-      );
-      if (missing.length > 0) {
-        await this.store.clear();
-        return "unsupported";
-      }
-      await this.store.set(connectionString);
-      this.#connection = connection;
-      this.#capabilities = capabilities;
-      return "ready";
-    } catch (error) {
+      connection = parseNwcConnectionString(connectionString);
+    } catch {
       await this.store.clear();
-      return connectionStatusFromError(error);
+      return "error";
     }
+
+    return await this.verifyConnection(connection, connectionString);
   }
 
   async disconnect(): Promise<void> {
@@ -385,6 +386,30 @@ export class NwcWalletConnector {
       !capabilities.has(capability)
     );
     if (missing.length > 0) throw new NwcCapabilityError(missing);
+  }
+
+  private async verifyConnection(
+    connection: NwcConnection,
+    connectionString: string,
+  ): Promise<NwcConnectionStatus> {
+    try {
+      const info = await this.transport.getInfo(connection);
+      const capabilities = new Set(info.capabilities);
+      const missing = requiredInvoiceCapabilities().filter((capability) =>
+        !capabilities.has(capability)
+      );
+      if (missing.length > 0) {
+        await this.store.clear();
+        return "unsupported";
+      }
+      await this.store.set(connectionString);
+      this.#connection = connection;
+      this.#capabilities = capabilities;
+      return "ready";
+    } catch (error) {
+      await this.store.clear();
+      return connectionStatusFromError(error);
+    }
   }
 }
 

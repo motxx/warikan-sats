@@ -5,12 +5,14 @@ export type Props = {
   onInput: (amount: number) => void;
   defaultValue?: number;
   prefix?: string;
+  ariaLabel?: string;
 };
 
 export const NumberInput: React.FC<Props> = ({
   onInput,
   defaultValue,
   prefix,
+  ariaLabel,
 }) => {
   const withPrefix = (str: string) => (prefix ? `${prefix} ${str}` : str);
   const [inputModel, setInputModel] = useState(defaultValue?.toString() ?? "0");
@@ -25,8 +27,6 @@ export const NumberInput: React.FC<Props> = ({
     const displayedValue = withPrefix(filteredValue);
     setInputModel(displayedValue);
 
-    console.log({ value, filteredValue, displayedValue });
-
     const inputCmp = ionInputEl.current;
     if (inputCmp !== null) {
       // XXX: 0や空文字列の場合、ev.target.valueが "", "¥ ", "¥ 0", "¥ 00" などの
@@ -39,6 +39,7 @@ export const NumberInput: React.FC<Props> = ({
 
   return (
     <IonInput
+      aria-label={ariaLabel}
       className="border-b border-gray-300 text-lg font-medium text-center h-full w-full"
       value={inputModel}
       onIonInput={onInputWithValidation}

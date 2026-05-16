@@ -31,6 +31,7 @@ export const WarikanArgsInput: React.FC<Props> = ({ onInput, lang }) => {
         <span className="w-1/3 min-w-[30px] pt-4 text-center">total</span>
         <div className="w-2/3">
           <NumberInput
+            ariaLabel="Total amount"
             onInput={setTotal}
             prefix={lang === "ja" ? "\xA5" : "$"}
             defaultValue={0}
@@ -40,7 +41,11 @@ export const WarikanArgsInput: React.FC<Props> = ({ onInput, lang }) => {
       <div className="w-2/5 flex flex-row place-items-center text-sm text-white font-medium">
         <span className="w-1/2 min-w-[30px] pt-4 text-center">divided by</span>
         <div className="w-2/3">
-          <NumberInput onInput={setDividedBy} defaultValue={1} />
+          <NumberInput
+            ariaLabel="Participant count"
+            onInput={setDividedBy}
+            defaultValue={1}
+          />
         </div>
       </div>
     </div>
