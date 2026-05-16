@@ -3,7 +3,7 @@ import { NumberInput } from "../../../../atoms/inputs/NumberInput";
 import { toSats } from "../../../../../services/currency";
 
 type Props = {
-  onInput: (amount: number) => void;
+  onInput: (input: { amount: number; participantCount: number }) => void;
   lang: "ja" | "en";
 };
 
@@ -18,7 +18,10 @@ export const WarikanArgsInput: React.FC<Props> = ({ onInput, lang }) => {
       setDividedBy(1);
     } else {
       const fiatBalance = total / dividedBy;
-      onInput(toSats(fiatBalance, lang === "ja" ? "jpy" : "usd"));
+      onInput({
+        amount: toSats(fiatBalance, lang === "ja" ? "jpy" : "usd"),
+        participantCount: Math.max(1, Math.floor(dividedBy)),
+      });
     }
   }, [total, dividedBy]);
 
