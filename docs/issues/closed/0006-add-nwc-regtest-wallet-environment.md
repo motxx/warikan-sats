@@ -36,3 +36,41 @@ deterministic connection details for the app and E2E harness.
 - Add health checks that prove the NWC wallet and payer wallets are ready before
   tests run.
 - Route NWC regtest failures through `docs/review-harness.md`.
+
+Completed: 2026-05-16
+
+## Resolution
+
+Implemented by updating:
+
+- `.gitignore`
+- `deno.json`
+- `docs/nwc-regtest-environment.md`
+- `docs/review-harness.md`
+- `scripts/nwc-regtest.ts`
+- `tests/integration/nwc_regtest_environment.test.ts`
+
+Verified with:
+
+- `deno task lint:strict`
+- `deno task test:scripts`
+- `deno task test:integration`
+- `deno task regtest:nwc:start`
+- `deno task regtest:nwc:health`
+- `deno task regtest:nwc:status`
+- `deno task regtest:nwc:reset`
+- `deno task regtest:nwc:stop`
+
+Harness update:
+
+- Added `tests/integration/nwc_regtest_environment.test.ts` and the
+  `regtest:nwc:*` Deno tasks to catch environment drift.
+
+Review residuals:
+
+- None
+
+Follow-up:
+
+- `0007-add-nwc-regtest-warikan-e2e` will use this environment for browser E2E
+  payment completion.

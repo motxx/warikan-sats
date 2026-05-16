@@ -11,7 +11,7 @@
     "lint:source": "deno lint --rules-exclude=no-sloppy-imports,no-window,ban-types,no-empty-pattern,no-unused-vars src scripts",
     "lint:strict": "deno task lint:paths && deno task lint:types && deno task lint:no-dynamic-import && deno task lint:source",
     "test:unit": "deno test --allow-read tests/unit",
-    "test:integration": "deno test --allow-read tests/integration",
+    "test:integration": "deno test --allow-read --allow-write tests/integration",
     "test:ui": "deno run -A npm:vitest@^0.32.2 run src --environment jsdom --globals",
     "test:e2e:regtest": "echo \"NWC regtest E2E is tracked by docs/issues/pending/0007-add-nwc-regtest-warikan-e2e.md\"",
     "test:scripts": "deno test --allow-read --allow-run scripts/*.test.ts",
@@ -19,6 +19,11 @@
     "test:all:docker": "./scripts/test-all.sh --docker",
     "ci": "./scripts/test-all.sh --local",
     "ci:docker": "./scripts/test-all.sh --docker",
+    "regtest:nwc:start": "deno run --allow-read --allow-write scripts/nwc-regtest.ts start",
+    "regtest:nwc:stop": "deno run --allow-read --allow-write scripts/nwc-regtest.ts stop",
+    "regtest:nwc:status": "deno run --allow-read --allow-write scripts/nwc-regtest.ts status",
+    "regtest:nwc:reset": "deno run --allow-read --allow-write scripts/nwc-regtest.ts reset",
+    "regtest:nwc:health": "deno run --allow-read --allow-write scripts/nwc-regtest.ts health",
     "setup:hooks": "git config core.hooksPath scripts/git-hooks"
   },
   "imports": {
